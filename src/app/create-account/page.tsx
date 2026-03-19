@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FadeIn } from "@/components/ui/fade-in";
 import { ElegantShape } from "@/components/ui/elegant-shape";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { BackgroundGlow } from "@/components/ui/background-glow";
-import { Mail, Lock, UserPlus, Check } from "lucide-react";
+import { Mail, Lock, UserPlus, Check, Loader2 } from "lucide-react";
+import { useAuth } from "@/lib/auth";
 
 export default function CreateAccountPage() {
   const [firstName, setFirstName] = useState("");
@@ -16,9 +18,31 @@ export default function CreateAccountPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [ageVerified, setAgeVerified] = useState(false);
   const [researchAcknowledged, setResearchAcknowledged] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const { register } = useAuth();
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg("");
+    if (password !== confirmPassword) {
+      setErrorMsg("Passwords do not match.");
+      return;
+    }
+    if (password.length < 6) {
+      setErrorMsg("Password must be at least 6 characters.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await register(email, password, `${firstName} ${lastName}`.trim());
+      router.push("/account");
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -63,6 +87,11 @@ export default function CreateAccountPage() {
           <FadeIn>
             <div className="bg-white border border-silver/50 rounded-2xl p-8 shadow-sm">
               <form onSubmit={handleSubmit} className="space-y-5">
+                {errorMsg && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
+                    {errorMsg}
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label
@@ -210,10 +239,11 @@ export default function CreateAccountPage() {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-royal text-white font-display font-semibold text-[16px] py-3.5 rounded-lg hover:bg-deep-blue transition-colors"
+                  disabled={loading}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-royal text-white font-display font-semibold text-[16px] py-3.5 rounded-lg hover:bg-deep-blue transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <UserPlus className="w-4 h-4" />
-                  Create Account
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserPlus className="w-4 h-4" />}
+                  {loading ? "Creating account..." : "Create Account"}
                 </button>
               </form>
 
@@ -232,17 +262,21 @@ export default function CreateAccountPage() {
       </section>
 
       {/* Disclaimer */}
-      <section className="py-12 px-4 bg-mist border-t border-silver/30">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-slate text-xs leading-relaxed text-center">
+      <section className="py-12 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-slate/70 text-xs leading-relaxed">
+            <strong className="text-steel font-semibold">Disclaimer:</strong>{" "}
             For Research Use Only. Not for Human Consumption. Not FDA Approved.
-            Not a Supplement. Products sold by Genara Labs are intended
+            Not a Supplement. All products sold by Genara Labs LLC are intended
             exclusively for in-vitro research and laboratory use. Not intended to
             diagnose, treat, cure, or prevent any disease. Purchasers must be 21
             years of age or older.
           </p>
         </div>
       </section>
+
+      {/* Gradient blend into footer */}
+      <div className="h-12 bg-gradient-to-b from-white to-carbon" />
     </main>
   );
 }

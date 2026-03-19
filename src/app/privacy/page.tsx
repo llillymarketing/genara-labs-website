@@ -266,17 +266,21 @@ export default function PrivacyPage() {
       </section>
 
       {/* Disclaimer */}
-      <section className="py-12 px-4 bg-white border-t border-silver/30">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-slate text-xs leading-relaxed text-center">
+      <section className="py-12 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-slate/70 text-xs leading-relaxed">
+            <strong className="text-steel font-semibold">Disclaimer:</strong>{" "}
             For Research Use Only. Not for Human Consumption. Not FDA Approved.
-            Not a Supplement. Products sold by Genara Labs are intended
+            Not a Supplement. All products sold by Genara Labs LLC are intended
             exclusively for in-vitro research and laboratory use. Not intended to
             diagnose, treat, cure, or prevent any disease. Purchasers must be 21
             years of age or older.
           </p>
         </div>
       </section>
+
+      {/* Gradient blend into footer */}
+      <div className="h-12 bg-gradient-to-b from-white to-carbon" />
     </main>
   );
 }
