@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/ui/fade-in";
 import {
@@ -303,7 +304,17 @@ export default function ProductPage() {
                     backgroundSize: "40px 40px",
                   }}
                 />
-                <FlaskConical className="w-24 h-24 text-silver/60" />
+                {product.slug === "bpc-157" ? (
+                  <Image
+                    src="/genara-logo.png"
+                    alt="Genara Labs"
+                    width={240}
+                    height={240}
+                    className="object-contain"
+                  />
+                ) : (
+                  <FlaskConical className="w-24 h-24 text-silver/60" />
+                )}
               </div>
 
               {/* Trust strip under image */}
