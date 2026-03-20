@@ -5,7 +5,8 @@ import { FadeIn } from "@/components/ui/fade-in";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { BackgroundGlow } from "@/components/ui/background-glow";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { CheckCircle2, Mail, Send, MapPin, Building2, Clock } from "lucide-react";
+import { CheckCircle2, Mail, Send, MapPin, Building2, Clock, Loader2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 const subjects = [
   "General Inquiry",
@@ -18,6 +19,32 @@ const subjects = [
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSubmitting(true);
+    setErrorMsg("");
+    const form = e.currentTarget;
+    const data = {
+      first_name: (form.elements.namedItem("firstName") as HTMLInputElement).value,
+      last_name: (form.elements.namedItem("lastName") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      subject: (form.elements.namedItem("subject") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.from("contact_submissions").insert(data);
+      if (error) throw error;
+      setSubmitted(true);
+    } catch {
+      setErrorMsg("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <main>
@@ -115,10 +142,7 @@ export default function ContactPage() {
               ) : (
                 <FadeIn>
                   <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      setSubmitted(true);
-                    }}
+                    onSubmit={handleSubmit}
                     className="space-y-5"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -149,9 +173,20 @@ export default function ContactPage() {
                       <label htmlFor="message" className="block text-sm font-medium text-graphite mb-1.5">Message</label>
                       <textarea id="message" required rows={5} className="w-full border border-silver rounded-lg px-4 py-3 text-[16px] text-graphite bg-white focus:outline-none focus:border-cerulean focus:ring-2 focus:ring-cerulean/20 transition-all resize-none" placeholder="Tell us about your research inquiry..." />
                     </div>
-                    <button type="submit" className="w-full inline-flex items-center justify-center gap-2 bg-royal text-white font-display font-semibold text-[16px] py-3.5 rounded-lg hover:bg-deep-blue transition-colors">
-                      <Send className="w-4 h-4" />
-                      Send Message
+                    {errorMsg && (
+                      <p className="text-red-600 text-sm">{errorMsg}</p>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="w-full inline-flex items-center justify-center gap-2 bg-royal text-white font-display font-semibold text-[16px] py-3.5 rounded-lg hover:bg-deep-blue transition-colors disabled:opacity-60 cursor-pointer"
+                    >
+                      {submitting ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Send className="w-4 h-4" />
+                      )}
+                      {submitting ? "Sending..." : "Send Message"}
                     </button>
                   </form>
                 </FadeIn>
