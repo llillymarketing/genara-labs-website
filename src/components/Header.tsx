@@ -117,15 +117,15 @@ export default function Header() {
             : "bg-white/80 backdrop-blur-md border-b border-silver/20"
         }`}
       >
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-[72px]">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-[88px]">
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0" onClick={closeAll}>
             <Image
               src="/genara-logo.png"
               alt="Genara Labs"
-              width={180}
-              height={40}
-              className="h-10 w-auto"
+              width={80}
+              height={80}
+              className="h-20 w-auto"
               priority
             />
           </Link>
@@ -281,7 +281,7 @@ export default function Header() {
             style={{ animation: "slideInLeft 0.3s ease-out" }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 h-[72px] border-b border-silver/40">
+            <div className="flex items-center justify-between px-4 h-[88px] border-b border-silver/40">
               <Image
                 src="/genara-logo.png"
                 alt="Genara Labs"
