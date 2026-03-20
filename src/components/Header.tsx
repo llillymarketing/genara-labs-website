@@ -123,9 +123,9 @@ export default function Header() {
             <Image
               src="/genara-logo.png"
               alt="Genara Labs"
-              width={80}
+              width={320}
               height={80}
-              className="h-20 w-auto"
+              className="h-16 w-auto mix-blend-multiply"
               priority
             />
           </Link>
@@ -285,9 +285,9 @@ export default function Header() {
               <Image
                 src="/genara-logo.png"
                 alt="Genara Labs"
-                width={140}
-                height={32}
-                className="h-8 w-auto"
+                width={320}
+                height={80}
+                className="h-10 w-auto mix-blend-multiply"
               />
               <button
                 onClick={() => setMenuOpen(false)}
