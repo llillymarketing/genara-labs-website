@@ -549,7 +549,8 @@ export default function ProductPage() {
       )}
 
       {/* Disclaimer */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className={`px-4 py-8 ${relatedProducts.length > 0 ? "bg-mist/40" : ""}`}>
+        <div className="max-w-4xl mx-auto">
         <p className="text-slate/50 text-xs leading-relaxed">
           <strong className="text-steel font-semibold">Disclaimer:</strong>{" "}
           For Research Use Only. Not for Human Consumption. Not FDA Approved.
@@ -557,6 +558,7 @@ export default function ProductPage() {
           research and laboratory use. Not intended to diagnose, treat, cure,
           or prevent any disease. Purchasers must be 21 years of age or older.
         </p>
+        </div>
       </div>
     </main>
   );

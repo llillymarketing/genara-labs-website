@@ -254,7 +254,7 @@ export default function Header() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 text-graphite rounded-lg hover:bg-mist transition-colors"
+              className="md:hidden p-2 text-graphite rounded-lg hover:bg-mist transition-colors cursor-pointer"
               aria-label="Toggle menu"
             >
               {menuOpen ? (
@@ -291,7 +291,7 @@ export default function Header() {
               />
               <button
                 onClick={() => setMenuOpen(false)}
-                className="p-2 text-graphite rounded-lg hover:bg-mist transition-colors"
+                className="p-2 text-graphite rounded-lg hover:bg-mist transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -331,7 +331,7 @@ export default function Header() {
               </Link>
               <button
                 onClick={() => { setMenuOpen(false); openCart(); }}
-                className="flex items-center gap-3 w-full py-3 px-3 rounded-lg text-graphite hover:text-royal hover:bg-mist font-medium text-[16px] transition-colors text-left"
+                className="flex items-center gap-3 w-full py-3 px-3 rounded-lg text-graphite hover:text-royal hover:bg-mist font-medium text-[16px] transition-colors text-left cursor-pointer"
               >
                 <ShoppingCart className="size-5" />
                 Cart

@@ -264,7 +264,7 @@ export default function CalculatorPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-white via-[#EAF0F7] to-white overflow-hidden">
+    <main className="relative min-h-screen bg-gradient-to-br from-white via-[#EAF0F7] to-white overflow-hidden">
       <BackgroundBeams className="opacity-30" />
       {/* ── Header Section ── */}
       <section className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-4">
@@ -469,6 +469,6 @@ export default function CalculatorPage() {
           </p>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

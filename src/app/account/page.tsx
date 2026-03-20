@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeIn } from "@/components/ui/fade-in";
@@ -31,35 +31,11 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
-import { useAuth } from "@/lib/auth";
+import { useAuth, type Address, type Order } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/client";
 
 /* ─── Types ──────────────────────────────────────────────────── */
 type Tab = "profile" | "addresses" | "orders" | "settings";
-
-interface Address {
-  id: string;
-  label: string;
-  name: string;
-  street: string;
-  city: string;
-  state: string;
-  zip: string;
-  isDefault: boolean;
-}
-
-interface OrderItem {
-  name: string;
-  qty: number;
-  price: number;
-}
-
-interface Order {
-  id: string;
-  date: string;
-  status: "processing" | "shipped" | "delivered" | "cancelled";
-  total: number;
-  items: OrderItem[];
-}
 
 /* ─── Tab config ─────────────────────────────────────────────── */
 const TABS: { key: Tab; label: string; icon: typeof User }[] = [
@@ -67,71 +43,6 @@ const TABS: { key: Tab; label: string; icon: typeof User }[] = [
   { key: "addresses", label: "Addresses", icon: MapPin },
   { key: "orders", label: "Order History", icon: Package },
   { key: "settings", label: "Settings", icon: Settings },
-];
-
-/* ─── Mock data ──────────────────────────────────────────────── */
-const MOCK_ADDRESSES: Address[] = [
-  {
-    id: "addr-1",
-    label: "Lab — Primary",
-    name: "Dr. Alex Chen",
-    street: "1200 Research Parkway, Suite 400",
-    city: "Cambridge",
-    state: "MA",
-    zip: "02142",
-    isDefault: true,
-  },
-  {
-    id: "addr-2",
-    label: "Satellite Facility",
-    name: "Dr. Alex Chen",
-    street: "9800 Innovation Blvd",
-    city: "San Diego",
-    state: "CA",
-    zip: "92121",
-    isDefault: false,
-  },
-];
-
-const MOCK_ORDERS: Order[] = [
-  {
-    id: "GNR-20260301",
-    date: "2026-03-01",
-    status: "delivered",
-    total: 189.0,
-    items: [
-      { name: "BPC-157 (5mg)", qty: 2, price: 45 },
-      { name: "TB-500 (5mg)", qty: 1, price: 52 },
-      { name: "GHK-Cu (50mg)", qty: 1, price: 47 },
-    ],
-  },
-  {
-    id: "GNR-20260215",
-    date: "2026-02-15",
-    status: "shipped",
-    total: 134.0,
-    items: [
-      { name: "Ipamorelin (5mg)", qty: 1, price: 62 },
-      { name: "Sermorelin (2mg)", qty: 1, price: 72 },
-    ],
-  },
-  {
-    id: "GNR-20260128",
-    date: "2026-01-28",
-    status: "processing",
-    total: 210.0,
-    items: [
-      { name: "CJC-1295 (2mg)", qty: 3, price: 42 },
-      { name: "Melanotan II (10mg)", qty: 1, price: 84 },
-    ],
-  },
-  {
-    id: "GNR-20260110",
-    date: "2026-01-10",
-    status: "cancelled",
-    total: 52.0,
-    items: [{ name: "Selank (5mg)", qty: 1, price: 52 }],
-  },
 ];
 
 /* ─── Status badge ───────────────────────────────────────────── */
@@ -176,14 +87,31 @@ function StatusBadge({ status }: { status: Order["status"] }) {
 
 /* ─── Profile Section ────────────────────────────────────────── */
 function ProfileSection() {
-  const [name, setName] = useState("Dr. Alex Chen");
-  const [email, setEmail] = useState("a.chen@biolabs.edu");
-  const [phone, setPhone] = useState("(617) 555-0142");
+  const { user, updateUser } = useAuth();
+  const [name, setName] = useState(user?.name || "");
+  const [email] = useState(user?.email || "");
+  const [phone, setPhone] = useState(user?.phone || "");
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const handleSave = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2500);
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setPhone(user.phone);
+    }
+  }, [user]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await updateUser({ name, phone });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } catch {
+      // error handled by auth context
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -238,8 +166,8 @@ function ProfileSection() {
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-silver rounded-lg pl-10 pr-4 py-3 text-[16px] text-graphite bg-white focus:outline-none focus:border-royal focus:ring-2 focus:ring-royal/15 transition-all"
+                disabled
+                className="w-full border border-silver rounded-lg pl-10 pr-4 py-3 text-[16px] text-graphite bg-mist/50 focus:outline-none transition-all cursor-not-allowed"
               />
             </div>
           </div>
@@ -263,9 +191,12 @@ function ProfileSection() {
         <div className="flex items-center gap-3 pt-5 border-t border-silver/40">
           <button
             onClick={handleSave}
-            className="inline-flex items-center gap-2 bg-royal text-white font-display font-semibold text-sm px-6 py-2.5 rounded-lg hover:bg-deep-blue transition-colors"
+            disabled={saving}
+            className="inline-flex items-center gap-2 bg-royal text-white font-display font-semibold text-sm px-6 py-2.5 rounded-lg hover:bg-deep-blue transition-colors disabled:opacity-60"
           >
-            {saved ? (
+            {saving ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : saved ? (
               <>
                 <Check className="size-4" />
                 Saved
@@ -287,20 +218,23 @@ function ProfileSection() {
 
 /* ─── Addresses Section ──────────────────────────────────────── */
 function AddressesSection() {
-  const [addresses, setAddresses] = useState<Address[]>(MOCK_ADDRESSES);
+  const { user, addAddress, removeAddress, updateAddress } = useAuth();
+  const addresses = user?.addresses || [];
   const [editing, setEditing] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState({
     label: "",
     name: "",
-    street: "",
+    line1: "",
+    line2: "",
     city: "",
     state: "",
     zip: "",
+    country: "US",
   });
 
   const resetForm = () => {
-    setForm({ label: "", name: "", street: "", city: "", state: "", zip: "" });
+    setForm({ label: "", name: "", line1: "", line2: "", city: "", state: "", zip: "", country: "US" });
     setEditing(null);
     setAdding(false);
   };
@@ -309,43 +243,51 @@ function AddressesSection() {
     setForm({
       label: addr.label,
       name: addr.name,
-      street: addr.street,
+      line1: addr.line1,
+      line2: addr.line2 || "",
       city: addr.city,
       state: addr.state,
       zip: addr.zip,
+      country: addr.country,
     });
     setEditing(addr.id);
     setAdding(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editing) {
-      setAddresses((prev) =>
-        prev.map((a) =>
-          a.id === editing ? { ...a, ...form } : a
-        )
-      );
+      await updateAddress(editing, {
+        label: form.label,
+        name: form.name,
+        line1: form.line1,
+        line2: form.line2,
+        city: form.city,
+        state: form.state,
+        zip: form.zip,
+        country: form.country,
+      });
     } else if (adding) {
-      setAddresses((prev) => [
-        ...prev,
-        {
-          id: `addr-${Date.now()}`,
-          ...form,
-          isDefault: prev.length === 0,
-        },
-      ]);
+      await addAddress({
+        label: form.label,
+        name: form.name,
+        line1: form.line1,
+        line2: form.line2,
+        city: form.city,
+        state: form.state,
+        zip: form.zip,
+        country: form.country,
+        isDefault: addresses.length === 0,
+      });
     }
     resetForm();
   };
 
-  const handleDelete = (id: string) => {
-    setAddresses((prev) => prev.filter((a) => a.id !== id));
+  const handleDelete = async (id: string) => {
+    await removeAddress(id);
   };
 
-  const handleSetDefault = (id: string) => {
-    setAddresses((prev) =>
-      prev.map((a) => ({ ...a, isDefault: a.id === id }))
-    );
+  const handleSetDefault = async (id: string) => {
+    await updateAddress(id, { isDefault: true });
   };
 
   const isFormOpen = editing !== null || adding;
@@ -423,9 +365,9 @@ function AddressesSection() {
                   Street Address
                 </label>
                 <input
-                  value={form.street}
+                  value={form.line1}
                   onChange={(e) =>
-                    setForm({ ...form, street: e.target.value })
+                    setForm({ ...form, line1: e.target.value })
                   }
                   className={inputCls}
                 />
@@ -516,7 +458,8 @@ function AddressesSection() {
             <p className="text-graphite text-sm leading-relaxed">
               {addr.name}
               <br />
-              {addr.street}
+              {addr.line1}
+              {addr.line2 && <><br />{addr.line2}</>}
               <br />
               {addr.city}, {addr.state} {addr.zip}
             </p>
@@ -574,10 +517,16 @@ function AddressesSection() {
 
 /* ─── Orders Section ─────────────────────────────────────────── */
 function OrdersSection() {
+  const { user, refreshOrders } = useAuth();
+  const orders = user?.orders || [];
   const [expanded, setExpanded] = useState<string | null>(null);
 
+  useEffect(() => {
+    refreshOrders();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const formatDate = (dateStr: string) => {
-    const d = new Date(dateStr + "T00:00:00");
+    const d = new Date(dateStr);
     return d.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
@@ -594,7 +543,7 @@ function OrdersSection() {
         Track your research compound orders and view past purchases.
       </p>
 
-      {MOCK_ORDERS.length === 0 ? (
+      {orders.length === 0 ? (
         <div className="text-center py-16 bg-white border border-silver/40 rounded-xl">
           <Package className="size-10 text-silver mx-auto mb-3" />
           <p className="text-steel text-sm">No orders yet.</p>
@@ -608,7 +557,7 @@ function OrdersSection() {
         </div>
       ) : (
         <div className="space-y-3">
-          {MOCK_ORDERS.map((order) => {
+          {orders.map((order) => {
             const isOpen = expanded === order.id;
             return (
               <div
@@ -657,6 +606,11 @@ function OrdersSection() {
                         <p className="text-steel text-xs mt-3 mb-3 sm:hidden">
                           {formatDate(order.date)}
                         </p>
+                        {order.tracking && (
+                          <p className="text-sm text-steel mb-3">
+                            Tracking: <span className="text-navy font-medium">{order.tracking}</span>
+                          </p>
+                        )}
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="text-left text-xs text-steel uppercase tracking-wider">
@@ -712,6 +666,10 @@ function OrdersSection() {
 
 /* ─── Settings Section ───────────────────────────────────────── */
 function SettingsSection() {
+  const { user, updateUser, logout } = useAuth();
+  const router = useRouter();
+  const supabase = createClient();
+
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -719,18 +677,66 @@ function SettingsSection() {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [passwordSaved, setPasswordSaved] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordLoading, setPasswordLoading] = useState(false);
 
-  const [orderUpdates, setOrderUpdates] = useState(true);
-  const [promotions, setPromotions] = useState(false);
-  const [newProducts, setNewProducts] = useState(true);
+  const [newsletter, setNewsletter] = useState(user?.newsletter ?? false);
 
-  const handlePasswordChange = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (user) setNewsletter(user.newsletter);
+  }, [user]);
+
+  const handleNewsletterToggle = async (value: boolean) => {
+    setNewsletter(value);
+    await updateUser({ newsletter: value });
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPasswordSaved(true);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setTimeout(() => setPasswordSaved(false), 2500);
+    setPasswordError("");
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New passwords do not match.");
+      return;
+    }
+    if (newPassword.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
+      return;
+    }
+
+    setPasswordLoading(true);
+    try {
+      // Verify current password by re-authenticating
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: user?.email || "",
+        password: currentPassword,
+      });
+      if (signInError) {
+        setPasswordError("Current password is incorrect.");
+        return;
+      }
+
+      // Update password
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+      if (updateError) throw new Error(updateError.message);
+
+      setPasswordSaved(true);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setTimeout(() => setPasswordSaved(false), 2500);
+    } catch (err) {
+      setPasswordError(err instanceof Error ? err.message : "Failed to update password.");
+    } finally {
+      setPasswordLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/");
   };
 
   const inputCls =
@@ -754,6 +760,11 @@ function SettingsSection() {
           </h3>
         </div>
         <form onSubmit={handlePasswordChange} className="max-w-md space-y-4">
+          {passwordError && (
+            <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
+              {passwordError}
+            </div>
+          )}
           <div>
             <label className="block text-xs font-semibold text-steel uppercase tracking-wider mb-2">
               Current Password
@@ -835,9 +846,10 @@ function SettingsSection() {
           <div className="flex items-center gap-3 pt-2">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 bg-royal text-white font-display font-semibold text-sm px-6 py-2.5 rounded-lg hover:bg-deep-blue transition-colors"
+              disabled={passwordLoading}
+              className="inline-flex items-center gap-2 bg-royal text-white font-display font-semibold text-sm px-6 py-2.5 rounded-lg hover:bg-deep-blue transition-colors disabled:opacity-60"
             >
-              Update Password
+              {passwordLoading ? <Loader2 className="size-4 animate-spin" /> : "Update Password"}
             </button>
             {passwordSaved && (
               <span className="text-sm text-green-600 font-medium">
@@ -859,22 +871,10 @@ function SettingsSection() {
         <div className="space-y-4">
           {[
             {
-              label: "Order Updates",
-              desc: "Shipping confirmations, delivery notifications, and tracking updates.",
-              value: orderUpdates,
-              setter: setOrderUpdates,
-            },
-            {
-              label: "Promotions & Discounts",
-              desc: "Exclusive offers and discount codes for research compounds.",
-              value: promotions,
-              setter: setPromotions,
-            },
-            {
-              label: "New Product Announcements",
-              desc: "Be the first to know when new compounds are available.",
-              value: newProducts,
-              setter: setNewProducts,
+              label: "Newsletter & Promotions",
+              desc: "Exclusive offers, discount codes, and new product announcements.",
+              value: newsletter,
+              setter: handleNewsletterToggle,
             },
           ].map((pref) => (
             <div
@@ -915,7 +915,10 @@ function SettingsSection() {
               Log out of your Genara Labs account on this device.
             </p>
           </div>
-          <button className="inline-flex items-center gap-2 border border-red-200 text-red-600 font-display font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-red-50 transition-colors">
+          <button
+            onClick={handleLogout}
+            className="inline-flex items-center gap-2 border border-red-200 text-red-600 font-display font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-red-50 transition-colors"
+          >
             <LogOut className="size-4" />
             Sign Out
           </button>
@@ -928,13 +931,8 @@ function SettingsSection() {
 /* ─── Main Account Page ──────────────────────────────────────── */
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState<Tab>("profile");
-  const { isLoggedIn, isLoading, logout } = useAuth();
+  const { isLoggedIn, isLoading } = useAuth();
   const router = useRouter();
-
-  const handleLogout = async () => {
-    await logout();
-    router.push("/");
-  };
 
   // Show loading state
   if (isLoading) {
@@ -945,9 +943,11 @@ export default function AccountPage() {
     );
   }
 
-  // Redirect to sign-in if not logged in (but still show page for demo/preview)
-  // When Supabase is connected, uncomment the redirect below:
-  // if (!isLoggedIn) { router.push("/sign-in"); return null; }
+  // Redirect to sign-in if not logged in
+  if (!isLoggedIn) {
+    router.push("/sign-in");
+    return null;
+  }
 
   const renderContent = () => {
     switch (activeTab) {

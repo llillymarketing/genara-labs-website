@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { FlaskConical } from "lucide-react";
 
 export default function AgeGate() {
@@ -70,13 +71,13 @@ export default function AgeGate() {
           <label className="flex items-center justify-between gap-3 cursor-pointer group">
             <span className="text-sm text-graphite">
               I accept the{" "}
-              <a
+              <Link
                 href="/privacy"
                 className="text-royal underline hover:text-deep-blue transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
                 Privacy Policy
-              </a>
+              </Link>
             </span>
             <button
               type="button"

@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, MapPin, FlaskConical, Building2, ArrowRight } from "lucide-react";
 import { Particles } from "@/components/ui/particles";
 import { FadeIn } from "@/components/ui/fade-in";
+import { createClient } from "@/lib/supabase/client";
 
 const navLinks = [
   { text: "Home", href: "/" },
@@ -36,6 +38,32 @@ const contactInfo = [
 ];
 
 export default function Footer() {
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setNewsletterLoading(true);
+    try {
+      const form = e.currentTarget;
+      const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+      const supabase = createClient();
+      await supabase.from("contact_submissions").insert({
+        email,
+        first_name: "Newsletter",
+        last_name: "Signup",
+        subject: "Newsletter Signup",
+        message: "Newsletter signup request",
+      });
+      setNewsletterSuccess(true);
+      form.reset();
+    } catch {
+      // silent fail
+    } finally {
+      setNewsletterLoading(false);
+    }
+  };
+
   return (
     <footer className="relative bg-gradient-to-b from-navy via-carbon to-carbon w-full overflow-hidden">
       {/* Particles span the entire footer */}
@@ -71,26 +99,35 @@ export default function Footer() {
               <p className="text-white/40 text-sm mb-6">
                 Enter your email to claim your discount.
               </p>
-              <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex flex-col sm:flex-row gap-3"
-              >
-                <div className="relative flex-1">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                    className="w-full bg-white/[0.06] border border-white/[0.1] rounded-lg pl-10 pr-4 py-3.5 text-[16px] text-white placeholder:text-white/30 focus:outline-none focus:border-sky/40 focus:ring-2 focus:ring-sky/20 transition-all"
-                  />
+              {newsletterSuccess ? (
+                <div className="bg-white/[0.06] border border-sky/30 rounded-lg px-6 py-4">
+                  <p className="text-sky font-display font-semibold text-base">You&apos;re in!</p>
+                  <p className="text-white/40 text-sm mt-1">Check your inbox for your 10% discount code.</p>
                 </div>
-                <button
-                  type="submit"
-                  className="bg-sky text-navy px-6 py-3.5 rounded-lg font-display font-semibold text-base hover:bg-white hover:shadow-[0_0_30px_rgba(79,195,247,0.4)] transition-all duration-300 whitespace-nowrap"
+              ) : (
+                <form
+                  onSubmit={handleNewsletterSubmit}
+                  className="flex flex-col sm:flex-row gap-3"
                 >
-                  Get 10% Off
-                </button>
-              </form>
+                  <div className="relative flex-1">
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      required
+                      className="w-full bg-white/[0.06] border border-white/[0.1] rounded-lg pl-10 pr-4 py-3.5 text-[16px] text-white placeholder:text-white/30 focus:outline-none focus:border-sky/40 focus:ring-2 focus:ring-sky/20 transition-all"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={newsletterLoading}
+                    className="bg-sky text-navy px-6 py-3.5 rounded-lg font-display font-semibold text-base hover:bg-white hover:shadow-[0_0_30px_rgba(79,195,247,0.4)] transition-all duration-300 whitespace-nowrap cursor-pointer disabled:opacity-50"
+                  >
+                    {newsletterLoading ? "Submitting..." : "Get 10% Off"}
+                  </button>
+                </form>
+              )}
               <p className="text-white/15 text-xs mt-4">
                 No spam. Unsubscribe anytime. For research use only.
               </p>

@@ -146,7 +146,7 @@ export default function CheckoutPage() {
                           <div className="flex items-center gap-1 mt-1.5 justify-end">
                             <button
                               onClick={() => updateQuantity(item.slug, item.quantity - 1)}
-                              className="w-6 h-6 rounded border border-silver/60 flex items-center justify-center text-steel hover:bg-mist transition-colors text-xs"
+                              className="w-6 h-6 rounded border border-silver/60 flex items-center justify-center text-steel hover:bg-mist transition-colors text-xs cursor-pointer"
                             >
                               &minus;
                             </button>
@@ -155,7 +155,7 @@ export default function CheckoutPage() {
                             </span>
                             <button
                               onClick={() => updateQuantity(item.slug, item.quantity + 1)}
-                              className="w-6 h-6 rounded border border-silver/60 flex items-center justify-center text-steel hover:bg-mist transition-colors text-xs"
+                              className="w-6 h-6 rounded border border-silver/60 flex items-center justify-center text-steel hover:bg-mist transition-colors text-xs cursor-pointer"
                             >
                               +
                             </button>

@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/ui/fade-in";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, Users, BarChart3, Link2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 const benefits = [
   {
@@ -37,6 +39,41 @@ const steps = [
 ];
 
 export default function AffiliatesPage() {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const form = e.currentTarget;
+      const fullName = (form.elements.namedItem("full_name") as HTMLInputElement).value;
+      const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+      const website = (form.elements.namedItem("website") as HTMLInputElement).value;
+      const audience = (form.elements.namedItem("audience_size") as HTMLInputElement).value;
+      const plan = (form.elements.namedItem("promotion_plan") as HTMLTextAreaElement).value;
+
+      const nameParts = fullName.trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
+
+      const supabase = createClient();
+      await supabase.from("contact_submissions").insert({
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        subject: "Affiliate Application",
+        message: `Website/Social: ${website}\nAudience Size: ${audience}\nPromotion Plan: ${plan}`,
+      });
+      setSuccess(true);
+      form.reset();
+    } catch {
+      // silent fail
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main>
       {/* One gradient + beams wraps ALL sections */}
@@ -136,39 +173,47 @@ export default function AffiliatesPage() {
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-navy/60 text-sm mb-1.5 block">Full Name *</label>
-                    <input type="text" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="John Smith" />
+              {success ? (
+                <div className="bg-white border border-royal/20 rounded-xl px-8 py-10 text-center">
+                  <h3 className="font-display text-2xl font-bold text-navy mb-2">Application Received</h3>
+                  <p className="text-steel text-sm">We&apos;ll review your application and get back to you within 48 hours.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="text-navy/60 text-sm mb-1.5 block">Full Name *</label>
+                      <input type="text" name="full_name" id="full_name" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="John Smith" />
+                    </div>
+                    <div>
+                      <label className="text-navy/60 text-sm mb-1.5 block">Email Address *</label>
+                      <input type="email" name="email" id="email" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="john@example.com" />
+                    </div>
                   </div>
                   <div>
-                    <label className="text-navy/60 text-sm mb-1.5 block">Email Address *</label>
-                    <input type="email" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="john@example.com" />
+                    <label className="text-navy/60 text-sm mb-1.5 block">Website or Social Media *</label>
+                    <input type="url" name="website" id="website" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="https://yourwebsite.com or @handle" />
                   </div>
-                </div>
-                <div>
-                  <label className="text-navy/60 text-sm mb-1.5 block">Website or Social Media *</label>
-                  <input type="url" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="https://yourwebsite.com or @handle" />
-                </div>
-                <div>
-                  <label className="text-navy/60 text-sm mb-1.5 block">Audience Size (approximate)</label>
-                  <input type="text" className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="e.g. 10,000 Instagram followers" />
-                </div>
-                <div>
-                  <label className="text-navy/60 text-sm mb-1.5 block">How do you plan to promote Genara Labs? *</label>
-                  <textarea required rows={4} className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all resize-none" placeholder="Tell us about your audience, content style, and promotion strategy..." />
-                </div>
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.02, y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className="w-full bg-royal text-white px-6 py-4 rounded-lg font-display font-semibold text-lg hover:bg-deep-blue transition-all duration-300 cursor-pointer"
-                >
-                  Submit Application
-                </motion.button>
-              </form>
+                  <div>
+                    <label className="text-navy/60 text-sm mb-1.5 block">Audience Size (approximate)</label>
+                    <input type="text" name="audience_size" id="audience_size" className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="e.g. 10,000 Instagram followers" />
+                  </div>
+                  <div>
+                    <label className="text-navy/60 text-sm mb-1.5 block">How do you plan to promote Genara Labs? *</label>
+                    <textarea name="promotion_plan" id="promotion_plan" required rows={4} className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all resize-none" placeholder="Tell us about your audience, content style, and promotion strategy..." />
+                  </div>
+                  <motion.button
+                    type="submit"
+                    disabled={loading}
+                    whileHover={{ scale: 1.02, y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    className="w-full bg-royal text-white px-6 py-4 rounded-lg font-display font-semibold text-lg hover:bg-deep-blue transition-all duration-300 cursor-pointer disabled:opacity-50"
+                  >
+                    {loading ? "Submitting..." : "Submit Application"}
+                  </motion.button>
+                </form>
+              )}
             </FadeIn>
           </div>
         </section>

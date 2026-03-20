@@ -73,7 +73,7 @@ export default function ShopPage() {
         {/* Mobile filter toggle */}
         <button
           onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-          className="lg:hidden mb-6 text-royal font-semibold text-sm flex items-center gap-2"
+          className="lg:hidden mb-6 text-royal font-semibold text-sm flex items-center gap-2 cursor-pointer"
         >
           <SlidersHorizontal className="w-4 h-4" />
           {mobileFilterOpen ? "Hide Filters" : "Show Filters"}

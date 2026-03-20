@@ -7,7 +7,6 @@ import { FadeIn } from "@/components/ui/fade-in";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { ShineBorder } from "@/components/ui/shine-border";
 import { Card, CardContent } from "@/components/ui/card";
-import { BackgroundGlow } from "@/components/ui/background-glow";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { Shield, Clock, MapPin, FlaskConical, ArrowRight, CheckCircle2 } from "lucide-react";
@@ -132,7 +131,7 @@ export default function HomePage() {
               transition={{ delay: 2.8, duration: 0.6 }}
               className="text-slate/30 text-xs mt-8"
             >
-              For Research Use Only &middot; Not for Human Consumption &middot; Not FDA Approved
+              For Research Use Only &middot; Not for Human Consumption &middot; Not FDA Approved &middot; Not a Supplement
             </motion.p>
           </div>
 
@@ -377,6 +376,20 @@ export default function HomePage() {
           </FadeIn>
         </div>
       </section>
+
+      {/* ── Disclaimer ── */}
+      <div className="bg-navy px-4 pb-8">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-white/30 text-xs leading-relaxed">
+            <strong className="text-white/50 font-semibold">Disclaimer:</strong>{" "}
+            For Research Use Only. Not for Human Consumption. Not FDA Approved.
+            Not a Supplement. All products sold by Genara Labs LLC are intended
+            exclusively for in-vitro research and laboratory use. Not intended to
+            diagnose, treat, cure, or prevent any disease. Purchasers must be 21
+            years of age or older.
+          </p>
+        </div>
+      </div>
     </main>
   );
 }

@@ -129,7 +129,7 @@ function CartDrawer() {
           </div>
           <button
             onClick={closeCart}
-            className="p-2 text-graphite rounded-lg hover:bg-mist transition-colors"
+            className="p-2 text-graphite rounded-lg hover:bg-mist transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -143,7 +143,7 @@ function CartDrawer() {
               <p className="text-steel text-sm mb-2">Your cart is empty</p>
               <button
                 onClick={closeCart}
-                className="text-sm text-royal font-semibold hover:text-deep-blue transition-colors"
+                className="text-sm text-royal font-semibold hover:text-deep-blue transition-colors cursor-pointer"
               >
                 Browse Compounds
               </button>
@@ -169,7 +169,7 @@ function CartDrawer() {
                           onClick={() =>
                             updateQuantity(item.slug, item.quantity - 1)
                           }
-                          className="w-7 h-7 rounded-md border border-silver flex items-center justify-center hover:bg-white transition-colors"
+                          className="w-7 h-7 rounded-md border border-silver flex items-center justify-center hover:bg-white transition-colors cursor-pointer"
                         >
                           <Minus className="w-3 h-3 text-graphite" />
                         </button>
@@ -180,7 +180,7 @@ function CartDrawer() {
                           onClick={() =>
                             updateQuantity(item.slug, item.quantity + 1)
                           }
-                          className="w-7 h-7 rounded-md border border-silver flex items-center justify-center hover:bg-white transition-colors"
+                          className="w-7 h-7 rounded-md border border-silver flex items-center justify-center hover:bg-white transition-colors cursor-pointer"
                         >
                           <Plus className="w-3 h-3 text-graphite" />
                         </button>
@@ -192,7 +192,7 @@ function CartDrawer() {
                   </div>
                   <button
                     onClick={() => removeItem(item.slug)}
-                    className="self-start p-1 text-slate hover:text-red-500 transition-colors"
+                    className="self-start p-1 text-slate hover:text-red-500 transition-colors cursor-pointer"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
