@@ -136,32 +136,25 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Diagonal divider: mist → navy ── */}
-      <div className="relative h-20 bg-mist">
-        <svg
-          className="absolute bottom-0 left-0 w-full"
-          viewBox="0 0 1440 80"
-          preserveAspectRatio="none"
-          fill="none"
+      {/* ── Quality Standard — navy with diagonal + DNA video ── */}
+      <section className="relative bg-navy overflow-hidden">
+        {/* Video covers entire section including diagonal */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.12] pointer-events-none"
         >
-          <path d="M0 80L1440 0V80H0Z" fill="#0D2137" />
-        </svg>
-      </div>
-
-      {/* ── Quality Standard — on navy with DNA video ── */}
-      <section className="relative py-24 px-4 bg-navy">
-        {/* DNA background video — overflows to fill diagonal divider gaps */}
-        <div className="absolute -inset-24 overflow-hidden pointer-events-none">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover opacity-[0.15]"
-          >
-            <source src="/dna-bg.mp4" type="video/mp4" />
-          </video>
+          <source src="/dna-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Diagonal top edge */}
+        <div className="relative h-20">
+          <svg className="absolute top-0 left-0 w-full" viewBox="0 0 1440 80" preserveAspectRatio="none" fill="none">
+            <path d="M0 0H1440V80L0 0Z" fill="#FFFFFF" />
+          </svg>
         </div>
+        <div className="relative z-10 px-4 pb-24">
         <div className="relative z-10 max-w-6xl mx-auto">
           <FadeIn>
             <p className="text-sky/60 font-display text-sm font-semibold tracking-wider uppercase mb-3">
@@ -207,19 +200,14 @@ export default function AboutPage() {
             </p>
           </FadeIn>
         </div>
+        </div>{/* close pb-24 wrapper */}
+        {/* Bottom diagonal inside section so video covers it */}
+        <div className="relative h-20">
+          <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 80" preserveAspectRatio="none" fill="none">
+            <path d="M0 0L1440 80H0V0Z" fill="#FFFFFF" />
+          </svg>
+        </div>
       </section>
-
-      {/* ── Diagonal divider: navy → white ── */}
-      <div className="relative h-20 bg-navy">
-        <svg
-          className="absolute bottom-0 left-0 w-full"
-          viewBox="0 0 1440 80"
-          preserveAspectRatio="none"
-          fill="none"
-        >
-          <path d="M0 0L1440 80H0V0Z" fill="#FFFFFF" />
-        </svg>
-      </div>
 
       {/* ── CTA section ── */}
       <section className="py-20 px-4 bg-white">
@@ -261,8 +249,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Gradient blend into footer */}
-      <div className="h-12 bg-gradient-to-b from-white to-carbon" />
     </main>
   );
 }

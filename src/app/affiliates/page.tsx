@@ -4,9 +4,8 @@ import { motion } from "framer-motion";
 import { FadeIn } from "@/components/ui/fade-in";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { BackgroundBeams } from "@/components/ui/background-beams";
-import { ShineBorder } from "@/components/ui/shine-border";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, DollarSign, Users, BarChart3, Link2, Mail, CheckCircle2 } from "lucide-react";
+import { DollarSign, Users, BarChart3, Link2 } from "lucide-react";
 
 const benefits = [
   {
@@ -40,11 +39,11 @@ const steps = [
 export default function AffiliatesPage() {
   return (
     <main>
-      {/* ── Unified gradient wrapper: Hero + Benefits + How It Works ── */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-white via-[#EAF0F7] to-white">
+      {/* One gradient + beams wraps ALL sections */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-mist via-[#EAF0F7] to-white">
         <BackgroundBeams className="opacity-30" />
 
-        {/* ── Hero Section ── */}
+        {/* Hero */}
         <section className="relative z-10 pt-20 pb-16 px-4">
           <div className="max-w-6xl mx-auto">
             <FadeIn>
@@ -67,7 +66,7 @@ export default function AffiliatesPage() {
           </div>
         </section>
 
-        {/* ── Benefits Grid ── */}
+        {/* Benefits Grid */}
         <section className="relative z-10 py-16 px-4">
           <div className="max-w-6xl mx-auto">
             <FadeIn>
@@ -84,7 +83,7 @@ export default function AffiliatesPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {benefits.map((b, i) => (
                 <FadeIn key={b.title} delay={0.05 + i * 0.08}>
-                  <Card className="h-full bg-white border-silver/40">
+                  <Card className="h-full bg-white/80 backdrop-blur-sm border-silver/40">
                     <CardContent className="p-6">
                       <div className="w-10 h-10 rounded-lg bg-ice flex items-center justify-center mb-4">
                         <b.icon className="w-5 h-5 text-royal" />
@@ -99,7 +98,7 @@ export default function AffiliatesPage() {
           </div>
         </section>
 
-        {/* ── How It Works ── */}
+        {/* How It Works */}
         <section className="relative z-10 py-16 px-4">
           <div className="max-w-4xl mx-auto">
             <FadeIn>
@@ -121,118 +120,74 @@ export default function AffiliatesPage() {
             </div>
           </div>
         </section>
-      </div>
 
-      {/* ── Diagonal divider ── */}
-      <div className="relative h-16 -mt-[2px] bg-white">
-        <svg className="absolute bottom-0 left-0 w-full block" viewBox="0 0 1440 64" preserveAspectRatio="none" fill="none">
-          <path d="M0 64L1440 0V64H0Z" fill="#0D2137" />
-        </svg>
-      </div>
-
-      {/* ── Application Form ── */}
-      <section className="py-20 px-4 bg-navy">
-        <div className="max-w-2xl mx-auto">
-          <FadeIn>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white text-center mb-4">
-              Apply Now
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.05}>
-            <p className="text-white/40 text-center mb-10">
-              Tell us about yourself and how you plan to promote Genara Labs. We review all applications within 48 hours.
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="space-y-5"
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                  <label className="text-white/60 text-sm mb-1.5 block">Full Name *</label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full bg-white/[0.06] border border-white/[0.1] rounded-lg px-4 py-3.5 text-[16px] text-white placeholder:text-white/30 focus:outline-none focus:border-sky/40 focus:ring-2 focus:ring-sky/20 transition-all"
-                    placeholder="John Smith"
-                  />
-                </div>
-                <div>
-                  <label className="text-white/60 text-sm mb-1.5 block">Email Address *</label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full bg-white/[0.06] border border-white/[0.1] rounded-lg px-4 py-3.5 text-[16px] text-white placeholder:text-white/30 focus:outline-none focus:border-sky/40 focus:ring-2 focus:ring-sky/20 transition-all"
-                    placeholder="john@example.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-white/60 text-sm mb-1.5 block">Website or Social Media *</label>
-                <input
-                  type="url"
-                  required
-                  className="w-full bg-white/[0.06] border border-white/[0.1] rounded-lg px-4 py-3.5 text-[16px] text-white placeholder:text-white/30 focus:outline-none focus:border-sky/40 focus:ring-2 focus:ring-sky/20 transition-all"
-                  placeholder="https://yourwebsite.com or @handle"
-                />
-              </div>
-
-              <div>
-                <label className="text-white/60 text-sm mb-1.5 block">Audience Size (approximate)</label>
-                <input
-                  type="text"
-                  className="w-full bg-white/[0.06] border border-white/[0.1] rounded-lg px-4 py-3.5 text-[16px] text-white placeholder:text-white/30 focus:outline-none focus:border-sky/40 focus:ring-2 focus:ring-sky/20 transition-all"
-                  placeholder="e.g. 10,000 Instagram followers"
-                />
-              </div>
-
-              <div>
-                <label className="text-white/60 text-sm mb-1.5 block">How do you plan to promote Genara Labs? *</label>
-                <textarea
-                  required
-                  rows={4}
-                  className="w-full bg-white/[0.06] border border-white/[0.1] rounded-lg px-4 py-3.5 text-[16px] text-white placeholder:text-white/30 focus:outline-none focus:border-sky/40 focus:ring-2 focus:ring-sky/20 transition-all resize-none"
-                  placeholder="Tell us about your audience, content style, and promotion strategy..."
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02, y: -1 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="w-full bg-sky text-navy px-6 py-4 rounded-lg font-display font-semibold text-lg hover:bg-white hover:shadow-[0_0_30px_rgba(79,195,247,0.3)] transition-all duration-300"
-              >
-                Submit Application
-              </motion.button>
-
-              <p className="text-white/20 text-xs text-center mt-4">
-                For Research Use Only. Not for Human Consumption. Not FDA Approved. Not a Supplement.
+        {/* Apply Now Form */}
+        <section className="relative z-10 py-20 px-4">
+          <div className="max-w-2xl mx-auto">
+            <FadeIn>
+              <h2 className="font-display text-3xl sm:text-4xl font-bold text-navy text-center mb-4">
+                Apply Now
+              </h2>
+            </FadeIn>
+            <FadeIn delay={0.05}>
+              <p className="text-steel text-center mb-10">
+                Tell us about yourself and how you plan to promote Genara Labs. We review all applications within 48 hours.
               </p>
-            </form>
-          </FadeIn>
-        </div>
-      </section>
+            </FadeIn>
 
-      {/* Disclaimer */}
-      <section className="py-12 px-4 bg-navy">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-white/30 text-xs leading-relaxed">
-            <strong className="text-white/50 font-semibold">Disclaimer:</strong>{" "}
-            For Research Use Only. Not for Human Consumption. Not FDA Approved.
-            Not a Supplement. All products sold by Genara Labs LLC are intended
-            exclusively for in-vitro research and laboratory use. Not intended to
-            diagnose, treat, cure, or prevent any disease. Purchasers must be 21
-            years of age or older.
-          </p>
-        </div>
-      </section>
+            <FadeIn delay={0.1}>
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="text-navy/60 text-sm mb-1.5 block">Full Name *</label>
+                    <input type="text" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="John Smith" />
+                  </div>
+                  <div>
+                    <label className="text-navy/60 text-sm mb-1.5 block">Email Address *</label>
+                    <input type="email" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="john@example.com" />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-navy/60 text-sm mb-1.5 block">Website or Social Media *</label>
+                  <input type="url" required className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="https://yourwebsite.com or @handle" />
+                </div>
+                <div>
+                  <label className="text-navy/60 text-sm mb-1.5 block">Audience Size (approximate)</label>
+                  <input type="text" className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all" placeholder="e.g. 10,000 Instagram followers" />
+                </div>
+                <div>
+                  <label className="text-navy/60 text-sm mb-1.5 block">How do you plan to promote Genara Labs? *</label>
+                  <textarea required rows={4} className="w-full bg-white border border-silver/60 rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-steel/40 focus:outline-none focus:border-royal/40 focus:ring-2 focus:ring-royal/20 transition-all resize-none" placeholder="Tell us about your audience, content style, and promotion strategy..." />
+                </div>
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="w-full bg-royal text-white px-6 py-4 rounded-lg font-display font-semibold text-lg hover:bg-deep-blue transition-all duration-300 cursor-pointer"
+                >
+                  Submit Application
+                </motion.button>
+              </form>
+            </FadeIn>
+          </div>
+        </section>
 
-      {/* Gradient blend into footer */}
-      <div className="h-12 bg-gradient-to-b from-navy to-carbon" />
+        {/* Disclaimer */}
+        <section className="relative z-10 py-6 px-4">
+          <div className="max-w-4xl mx-auto">
+            <p className="text-slate/50 text-xs leading-relaxed">
+              <strong className="text-steel font-semibold">Disclaimer:</strong>{" "}
+              For Research Use Only. Not for Human Consumption. Not FDA Approved.
+              Not a Supplement. All products sold by Genara Labs LLC are intended
+              exclusively for in-vitro research and laboratory use. Not intended to
+              diagnose, treat, cure, or prevent any disease. Purchasers must be 21
+              years of age or older.
+            </p>
+          </div>
+        </section>
+
+      </div>{/* close gradient wrapper */}
     </main>
   );
 }

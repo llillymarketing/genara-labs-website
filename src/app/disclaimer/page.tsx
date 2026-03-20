@@ -198,8 +198,6 @@ export default function DisclaimerPage() {
         </div>
       </section>
 
-      {/* Gradient blend into footer */}
-      <div className="h-12 bg-gradient-to-b from-white to-carbon" />
     </main>
   );
 }

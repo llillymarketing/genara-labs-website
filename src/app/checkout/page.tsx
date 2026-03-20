@@ -96,27 +96,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Top bar */}
-      <div className="border-b border-silver/30 bg-cloud">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-2 text-sm text-steel hover:text-navy transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Continue Shopping</span>
-            <span className="sm:hidden">Back</span>
-          </Link>
-          <h1 className="font-display text-lg sm:text-xl font-bold text-navy">
-            Checkout
-          </h1>
-          <div className="flex items-center gap-1.5 text-xs text-steel">
-            <Lock className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Secure Checkout</span>
-          </div>
-        </div>
-      </div>
-
       {/* Main grid: Order Summary LEFT, Form RIGHT */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">

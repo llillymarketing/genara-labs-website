@@ -97,8 +97,6 @@ export default function ShippingPage() {
         </div>
       </section>
 
-      {/* Gradient blend into footer */}
-      <div className="h-12 bg-gradient-to-b from-[#FAFCFE] to-carbon" />
     </main>
   );
 }

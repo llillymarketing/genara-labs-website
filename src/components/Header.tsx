@@ -4,27 +4,30 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Search, FlaskConical, User, ShoppingCart } from "lucide-react";
+import { useCart } from "@/components/CartDrawer";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
   { href: "/about", label: "About" },
+  { href: "/calculator", label: "Calculator" },
+  { href: "/affiliates", label: "Affiliates" },
   { href: "/contact", label: "Contact" },
 ];
 
 const compounds = [
-  { name: "BPC-157", variant: "5mg", category: "Repair & Recovery" },
-  { name: "TB-500", variant: "5mg", category: "Repair & Recovery" },
-  { name: "PT-141", variant: "10mg", category: "All Compounds" },
-  { name: "Melanotan II", variant: "10mg", category: "Cosmetic Peptides" },
-  { name: "CJC-1295", variant: "2mg", category: "Growth Hormone Secretagogues" },
-  { name: "Ipamorelin", variant: "5mg", category: "Growth Hormone Secretagogues" },
-  { name: "Sermorelin", variant: "2mg", category: "Growth Hormone Secretagogues" },
-  { name: "GHK-Cu", variant: "50mg", category: "Cosmetic Peptides" },
-  { name: "Thymosin Alpha-1", variant: "5mg", category: "Immune & Thymic" },
-  { name: "Selank", variant: "5mg", category: "Cognitive & Neuropeptides" },
-  { name: "Semax", variant: "5mg", category: "Cognitive & Neuropeptides" },
-  { name: "DSIP", variant: "5mg", category: "Cognitive & Neuropeptides" },
+  { name: "BPC-157", variant: "5mg" },
+  { name: "TB-500", variant: "5mg" },
+  { name: "PT-141", variant: "10mg" },
+  { name: "Melanotan II", variant: "10mg" },
+  { name: "CJC-1295", variant: "2mg" },
+  { name: "Ipamorelin", variant: "5mg" },
+  { name: "Sermorelin", variant: "2mg" },
+  { name: "GHK-Cu", variant: "50mg" },
+  { name: "Thymosin Alpha-1", variant: "5mg" },
+  { name: "Selank", variant: "5mg" },
+  { name: "Semax", variant: "5mg" },
+  { name: "DSIP", variant: "5mg" },
 ];
 
 export default function Header() {
@@ -33,13 +36,13 @@ export default function Header() {
   const [query, setQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+  const { openCart, totalItems } = useCart();
 
   const filtered =
     query.length > 0
-      ? compounds.filter(
-          (c) =>
-            c.name.toLowerCase().includes(query.toLowerCase()) ||
-            c.category.toLowerCase().includes(query.toLowerCase())
+      ? compounds.filter((c) =>
+          c.name.toLowerCase().includes(query.toLowerCase())
         )
       : [];
 
@@ -76,9 +79,9 @@ export default function Header() {
     }
   }, [searchOpen]);
 
-  // Lock body scroll when mobile menu or search is open
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    if (menuOpen || searchOpen) {
+    if (menuOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -86,7 +89,18 @@ export default function Header() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuOpen, searchOpen]);
+  }, [menuOpen]);
+
+  // Close search dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setSearchOpen(false);
+      }
+    };
+    if (searchOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [searchOpen]);
 
   const closeAll = useCallback(() => {
     setMenuOpen(false);
@@ -131,42 +145,102 @@ export default function Header() {
 
           {/* Right side actions */}
           <div className="flex items-center gap-2">
-            {/* Search button */}
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="relative flex items-center justify-center size-9 rounded-lg border border-silver/60 bg-white hover:bg-mist transition-colors cursor-pointer xl:h-9 xl:w-56 xl:justify-between xl:px-3 xl:py-2"
-            >
-              <span className="hidden xl:inline-flex text-sm text-slate">
-                Search compounds...
-              </span>
-              <span className="sr-only">Search</span>
-              <Search className="size-4 text-slate xl:hidden" />
-              <div className="hidden xl:flex items-center gap-1">
-                <kbd className="inline-flex items-center rounded border border-silver/60 bg-mist px-1.5 py-0.5 text-[10px] text-slate font-mono">
-                  ⌘K
-                </kbd>
-                <Search className="size-3.5 text-slate" />
-              </div>
-            </button>
+            {/* Search with inline dropdown */}
+            <div className="relative" ref={searchContainerRef}>
+              <button
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="relative flex items-center justify-center size-9 rounded-lg border border-silver/60 bg-white hover:bg-mist transition-colors cursor-pointer xl:h-9 xl:w-56 xl:justify-between xl:px-3 xl:py-2"
+              >
+                <span className="hidden xl:inline-flex text-sm text-slate">
+                  Search compounds...
+                </span>
+                <span className="sr-only">Search</span>
+                <Search className="size-4 text-slate xl:hidden" />
+                <div className="hidden xl:flex items-center gap-1">
+                  <kbd className="inline-flex items-center rounded border border-silver/60 bg-mist px-1.5 py-0.5 text-[10px] text-slate font-mono">
+                    ⌘K
+                  </kbd>
+                  <Search className="size-3.5 text-slate" />
+                </div>
+              </button>
 
-            {/* Sign In */}
+              {/* Dropdown */}
+              {searchOpen && (
+                <div className="absolute right-0 xl:left-0 top-full mt-2 w-80 bg-white rounded-xl border border-silver/60 overflow-hidden z-[60]">
+                  <div className="flex items-center border-b border-silver/40 px-3">
+                    <Search className="size-4 text-slate shrink-0" />
+                    <input
+                      ref={searchInputRef}
+                      type="text"
+                      placeholder="Search compounds..."
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      className="flex-1 h-11 bg-transparent px-3 text-[16px] text-graphite placeholder:text-slate outline-none"
+                    />
+                  </div>
+                  <div className="max-h-[280px] overflow-y-auto">
+                    {query.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-8 text-center">
+                        <FlaskConical className="size-6 text-silver mb-2" />
+                        <p className="text-xs text-slate">
+                          Search by compound name
+                        </p>
+                      </div>
+                    ) : filtered.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-8 text-center">
+                        <p className="text-sm text-slate">
+                          No results for &ldquo;{query}&rdquo;
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="p-1.5">
+                        {filtered.map((compound) => (
+                          <Link
+                            key={compound.name}
+                            href={`/shop/${compound.name.toLowerCase().replace(/\s+/g, "-")}`}
+                            onClick={() => { setSearchOpen(false); setQuery(""); }}
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-mist transition-colors"
+                          >
+                            <FlaskConical className="size-4 text-royal shrink-0" />
+                            <div className="flex flex-col min-w-0">
+                              <span className="text-sm font-medium text-navy truncate">
+                                {compound.name}
+                              </span>
+                              <span className="text-xs text-slate">
+                                {compound.variant}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Account */}
             <Link
-              href="/sign-in"
+              href="/account"
               className="flex items-center gap-1.5 size-9 md:w-auto md:h-9 md:px-3 justify-center rounded-lg border border-silver/60 bg-white hover:bg-mist transition-colors text-graphite hover:text-royal"
+              title="My Account"
             >
               <User className="size-4 shrink-0" />
-              <span className="hidden md:inline text-sm font-medium">Sign In</span>
+              <span className="hidden md:inline text-sm font-medium">Account</span>
             </Link>
 
             {/* Cart */}
             <button
+              onClick={openCart}
               className="relative flex items-center justify-center size-9 rounded-lg border border-silver/60 bg-white hover:bg-mist transition-colors text-graphite hover:text-royal cursor-pointer"
               aria-label="Cart"
             >
               <ShoppingCart className="size-4" />
-              <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center size-[18px] rounded-full bg-royal text-white text-[10px] font-semibold leading-none">
-                0
-              </span>
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center size-[18px] rounded-full bg-royal text-white text-[10px] font-semibold leading-none">
+                  {totalItems}
+                </span>
+              )}
             </button>
 
             {/* Browse Peptides CTA */}
@@ -174,7 +248,7 @@ export default function Header() {
               href="/shop"
               className="hidden md:inline-flex bg-royal text-white px-5 py-2.5 rounded-lg text-[15px] font-semibold hover:bg-deep-blue transition-colors ml-1"
             >
-              Browse Peptides
+              Shop Peptides
             </Link>
 
             {/* Mobile hamburger */}
@@ -193,86 +267,7 @@ export default function Header() {
         </nav>
       </header>
 
-      {/* ── Search overlay ── */}
-      {searchOpen && (
-        <div className="fixed inset-0 z-[60]">
-          <div
-            className="absolute inset-0 bg-navy/40 backdrop-blur-sm"
-            onClick={() => setSearchOpen(false)}
-          />
-          <div className="relative z-10 max-w-lg mt-24 mx-4 sm:mx-auto">
-            <div className="bg-white rounded-xl border border-silver/60 overflow-hidden">
-              {/* Search input */}
-              <div className="flex items-center border-b border-silver/40 px-4">
-                <Search className="size-4 text-slate shrink-0" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder="Search compounds..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="flex-1 h-12 bg-transparent px-3 text-[16px] text-graphite placeholder:text-slate outline-none"
-                />
-                <button
-                  onClick={() => setSearchOpen(false)}
-                  className="text-xs text-slate border border-silver/60 rounded px-1.5 py-0.5 hover:bg-mist transition-colors"
-                >
-                  ESC
-                </button>
-              </div>
-
-              {/* Results */}
-              <div className="max-h-[320px] overflow-y-auto">
-                {query.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <FlaskConical className="size-8 text-silver mb-3" />
-                    <p className="text-sm text-slate">
-                      Search by compound name or category
-                    </p>
-                  </div>
-                ) : filtered.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <Search className="size-6 text-silver mb-2" />
-                    <p className="text-sm text-slate mb-1">
-                      No compounds found for &ldquo;{query}&rdquo;
-                    </p>
-                    <button
-                      onClick={() => setQuery("")}
-                      className="text-sm text-royal hover:text-deep-blue transition-colors"
-                    >
-                      Clear search
-                    </button>
-                  </div>
-                ) : (
-                  <div className="p-2">
-                    {filtered.map((compound) => (
-                      <Link
-                        key={compound.name}
-                        href="/shop"
-                        onClick={() => setSearchOpen(false)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-mist transition-colors cursor-pointer"
-                      >
-                        <FlaskConical className="size-4 text-royal shrink-0" />
-                        <div className="flex flex-col min-w-0">
-                          <span className="text-sm font-medium text-navy truncate">
-                            {compound.name}
-                          </span>
-                          <span className="text-xs text-slate">
-                            {compound.variant} · {compound.category}
-                          </span>
-                        </div>
-                        <span className="ml-auto text-xs text-slate shrink-0">
-                          View
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* ── Search dropdown (inline, anchored to search button) ── */}
 
       {/* ── Mobile slide-in menu ── */}
       {menuOpen && (
@@ -316,8 +311,16 @@ export default function Header() {
               ))}
             </div>
 
-            {/* Footer: Sign In, Cart, CTA */}
+            {/* Footer: Account, Sign In, Cart, CTA */}
             <div className="p-4 border-t border-silver/40 space-y-2">
+              <Link
+                href="/account"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-3 py-3 px-3 rounded-lg text-graphite hover:text-royal hover:bg-mist font-medium text-[16px] transition-colors"
+              >
+                <User className="size-5" />
+                My Account
+              </Link>
               <Link
                 href="/sign-in"
                 onClick={() => setMenuOpen(false)}
@@ -327,21 +330,23 @@ export default function Header() {
                 Sign In
               </Link>
               <button
-                onClick={() => setMenuOpen(false)}
+                onClick={() => { setMenuOpen(false); openCart(); }}
                 className="flex items-center gap-3 w-full py-3 px-3 rounded-lg text-graphite hover:text-royal hover:bg-mist font-medium text-[16px] transition-colors text-left"
               >
                 <ShoppingCart className="size-5" />
                 Cart
-                <span className="ml-auto flex items-center justify-center size-5 rounded-full bg-royal text-white text-[11px] font-semibold leading-none">
-                  0
-                </span>
+                {totalItems > 0 && (
+                  <span className="ml-auto flex items-center justify-center size-5 rounded-full bg-royal text-white text-[11px] font-semibold leading-none">
+                    {totalItems}
+                  </span>
+                )}
               </button>
               <Link
                 href="/shop"
                 onClick={() => setMenuOpen(false)}
                 className="block bg-royal text-white px-5 py-3 rounded-lg text-center font-semibold hover:bg-deep-blue transition-colors text-[16px] mt-2"
               >
-                Browse Peptides
+                Shop Peptides
               </Link>
             </div>
           </div>

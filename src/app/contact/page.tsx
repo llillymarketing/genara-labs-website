@@ -159,12 +159,9 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Disclaimer */}
-      <section className="py-12 px-4 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-slate/70 text-xs leading-relaxed">
+        {/* Disclaimer */}
+        <div className="max-w-4xl mx-auto mt-12">
+          <p className="text-slate/50 text-xs leading-relaxed">
             <strong className="text-steel font-semibold">Disclaimer:</strong>{" "}
             For Research Use Only. Not for Human Consumption. Not FDA Approved.
             Not a Supplement. All products sold by Genara Labs LLC are intended
@@ -175,8 +172,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Gradient blend into footer */}
-      <div className="h-12 bg-gradient-to-b from-white to-carbon" />
     </main>
   );
 }

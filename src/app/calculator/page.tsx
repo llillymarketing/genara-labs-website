@@ -267,7 +267,7 @@ export default function CalculatorPage() {
     <div className="relative min-h-screen bg-gradient-to-br from-white via-[#EAF0F7] to-white overflow-hidden">
       <BackgroundBeams className="opacity-30" />
       {/* ── Header Section ── */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-4">
+      <section className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-4">
         <FadeIn>
           <div className="flex items-center gap-2 mb-4">
             <Calculator className="size-5 text-royal" />
@@ -292,7 +292,7 @@ export default function CalculatorPage() {
       </section>
 
       {/* ── Calculator Section ── */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Left column: Inputs */}
           <div className="lg:col-span-3">
@@ -373,7 +373,7 @@ export default function CalculatorPage() {
       </section>
 
       {/* ── Results Section ── */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+      <section className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <FadeIn delay={0.3}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <ResultCard
@@ -403,7 +403,7 @@ export default function CalculatorPage() {
       </section>
 
       {/* ── How It Works ── */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <FadeIn delay={0.1}>
           <h2 className="font-display text-2xl font-bold text-navy mb-6">
             How It Works
@@ -457,7 +457,7 @@ export default function CalculatorPage() {
       </section>
 
       {/* ── Disclaimer ── */}
-      <section className="py-12 px-4">
+      <section className="py-6 px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-slate/70 text-xs leading-relaxed">
             <strong className="text-steel font-semibold">Disclaimer:</strong>{" "}

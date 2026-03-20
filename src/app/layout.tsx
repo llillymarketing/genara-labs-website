@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AgeGate from "@/components/AgeGate";
+import { CartProvider } from "@/components/CartDrawer";
+import { AuthProvider } from "@/lib/auth";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -33,10 +36,15 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <Header />
-        <div className="h-[72px]" />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <CartProvider>
+            <AgeGate />
+            <Header />
+            <div className="h-[72px]" />
+            {children}
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
