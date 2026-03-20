@@ -268,25 +268,6 @@ export default function ProductPage() {
 
   return (
     <main className="bg-white">
-      {/* Breadcrumb */}
-      <div className="border-b border-silver/30 px-4 py-3">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-2 text-sm text-slate">
-            <Link href="/shop" className="hover:text-royal transition-colors">
-              Shop
-            </Link>
-            <span className="text-silver">/</span>
-            <Link
-              href="/shop"
-              className="hover:text-royal transition-colors"
-            >
-              {product.category}
-            </Link>
-            <span className="text-silver">/</span>
-            <span className="text-navy font-medium">{product.name}</span>
-          </div>
-        </div>
-      </div>
 
       {/* ── Product Hero ── */}
       <section className="py-12 px-4">
