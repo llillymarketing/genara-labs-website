@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import MolecularOrbital from "@/components/MolecularOrbital";
-import DNAHelixBg from "@/components/DNAHelixBg";
+import DNAHero from "@/components/DNAHero";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Card, CardContent } from "@/components/ui/card";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
@@ -27,8 +26,6 @@ export default function HomePage() {
       <section className="relative min-h-[92vh] py-28 flex items-center overflow-hidden"
         style={{ background: "linear-gradient(145deg, #0A1F44 0%, #0D2B5A 50%, #0A1F44 100%)" }}>
 
-        {/* Animated DNA helix */}
-        <DNAHelixBg />
 
         {/* Soft radial glow */}
         <div className="absolute inset-0 pointer-events-none"
@@ -145,9 +142,9 @@ export default function HomePage() {
             </motion.p>
           </div>
 
-          {/* Right — Molecular Orbital */}
-          <div className="hidden lg:flex items-center justify-center opacity-80">
-            <MolecularOrbital />
+          {/* Right — DNA Helix */}
+          <div className="hidden lg:flex items-center justify-center" style={{ height: "660px" }}>
+            <DNAHero />
           </div>
         </div>
       </section>
