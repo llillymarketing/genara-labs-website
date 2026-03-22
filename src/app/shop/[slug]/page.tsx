@@ -275,7 +275,7 @@ export default function ProductPage() {
           {/* Left — Image */}
           <FadeIn>
             <div className="sticky top-28">
-              <div className="bg-gradient-to-br from-mist via-ice/30 to-silver/20 rounded-2xl aspect-square flex items-center justify-center border border-silver/30 relative overflow-hidden">
+              <div className="bg-gradient-to-br from-navy via-deep-blue to-[#0a1f3d] rounded-2xl aspect-square flex items-center justify-center border border-royal/20 relative overflow-hidden">
                 {/* Subtle grid pattern */}
                 <div
                   className="absolute inset-0 pointer-events-none opacity-[0.03]"

@@ -46,22 +46,24 @@ export default function ShopPage() {
   return (
     <main>
       {/* Page Header — clean, no banner */}
-      <section className="pt-20 pb-8 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+      <section className="pt-20 pb-10 bg-gradient-to-br from-navy via-deep-blue to-[#0a1f3d] relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(79,195,247,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(79,195,247,0.04) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 80% at 20% 50%, rgba(21,101,192,0.2) 0%, transparent 70%)" }} />
+        <div className="relative max-w-6xl mx-auto px-4">
           <FadeIn>
-            <p className="text-royal font-display text-sm font-semibold tracking-wider uppercase mb-3">
+            <p className="text-sky font-display text-sm font-semibold tracking-wider uppercase mb-3">
               Catalog
             </p>
           </FadeIn>
           <div className="mb-3">
             <TextGenerateEffect
               words="Research Compounds"
-              className="font-display text-3xl sm:text-4xl font-bold text-navy [&_span]:text-navy"
+              className="font-display text-3xl sm:text-4xl font-bold text-white [&_span]:text-white"
               duration={0.5}
             />
           </div>
           <FadeIn delay={0.3}>
-            <p className="text-steel max-w-xl">
+            <p className="text-white/60 max-w-xl">
               Browse our full catalog of research-grade peptides and compounds.
               Every product ships with a Certificate of Analysis.
             </p>
@@ -125,9 +127,9 @@ export default function ShopPage() {
                     className="group bg-white overflow-hidden"
                   >
                     <Link href={`/shop/${product.slug}`} className="block">
-                      <div className="bg-gradient-to-br from-mist to-silver/20 h-44 flex items-center justify-center relative overflow-hidden rounded-t-[11px]">
-                        <div className="absolute inset-0 bg-gradient-to-br from-royal/[0.03] to-cerulean/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <FlaskConical className="w-10 h-10 text-silver group-hover:text-royal/40 transition-colors duration-300" />
+                      <div className="bg-gradient-to-br from-navy to-deep-blue h-44 flex items-center justify-center relative overflow-hidden rounded-t-[11px]">
+                        <div className="absolute inset-0 bg-gradient-to-br from-royal/20 to-cerulean/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <FlaskConical className="w-10 h-10 text-sky/40 group-hover:text-sky/70 transition-colors duration-300" />
                       </div>
                     </Link>
                     <div className="p-5">

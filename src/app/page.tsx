@@ -37,15 +37,17 @@ export default function HomePage() {
 
   return (
     <main>
-      {/* ── One gradient wraps hero + catalogue + bento ── */}
-      <div className="bg-gradient-to-br from-mist via-[#EAF0F7] to-white">
+      {/* ── Dark navy hero, then light catalog section ── */}
+      <div className="bg-white">
 
       {/* ───── HERO ───── */}
-      <section className="relative min-h-[90vh] py-24 flex items-center overflow-hidden">
-        {/* Subtle grid */}
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(21,101,192,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(21,101,192,0.03) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+      <section className="relative min-h-[90vh] py-24 flex items-center overflow-hidden bg-gradient-to-br from-navy via-deep-blue to-[#0a1f3d]">
+        {/* Grid overlay */}
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(79,195,247,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(79,195,247,0.05) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+        {/* Radial glow */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 60% 50%, rgba(21,101,192,0.25) 0%, transparent 70%)" }} />
         {/* Animated accent line top */}
-        <motion.div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-royal to-transparent" initial={{ width: "0%" }} animate={{ width: "40%" }} transition={{ duration: 1.5, ease: "easeOut" }} />
+        <motion.div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-sky to-transparent" initial={{ width: "0%" }} animate={{ width: "60%" }} transition={{ duration: 1.5, ease: "easeOut" }} />
         <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           {/* Left: text content */}
           <div className="text-center lg:text-left">
@@ -54,16 +56,16 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-royal/10 mb-8">
-                <FlaskConical className="h-3.5 w-3.5 text-royal" />
-                <span className="text-sm text-royal tracking-wide font-medium">Research-Grade Compounds</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-sky/30 mb-8">
+                <FlaskConical className="h-3.5 w-3.5 text-sky" />
+                <span className="text-sm text-sky tracking-wide font-medium">Research-Grade Compounds</span>
               </div>
             </motion.div>
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold leading-[1.05] mb-6 tracking-tight text-navy">
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold leading-[1.05] mb-6 tracking-tight text-white">
               <TextGenerateEffect
                 words="Precision Peptides for Serious Research"
-                className="text-navy [&_span]:text-navy"
+                className="text-white [&_span]:text-white"
                 duration={0.5}
               />
             </h1>
@@ -72,7 +74,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.8, ease: "easeOut" }}
-              className="text-steel text-lg sm:text-xl leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0"
+              className="text-white/70 text-lg sm:text-xl leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0"
             >
               Third-party tested. Certificate of Analysis with every order. Trusted by researchers nationwide.
             </motion.p>
@@ -84,12 +86,12 @@ export default function HomePage() {
               className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 mb-12"
             >
               <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                <Link href="/shop" className="inline-flex items-center gap-2 bg-royal text-white px-8 py-3.5 rounded-lg font-display font-semibold text-lg hover:bg-deep-blue transition-colors shadow-lg shadow-royal/20">
+                <Link href="/shop" className="inline-flex items-center gap-2 bg-white text-navy px-8 py-3.5 rounded-lg font-display font-semibold text-lg hover:bg-ice transition-colors shadow-lg shadow-black/30">
                   Browse Peptides
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </motion.div>
-              <Link href="/about" className="inline-flex items-center gap-1.5 text-steel font-display font-semibold text-base hover:text-navy transition-colors py-3.5">
+              <Link href="/about" className="inline-flex items-center gap-1.5 text-white/60 font-display font-semibold text-base hover:text-white transition-colors py-3.5">
                 Learn More
                 <ArrowRight className="w-4 h-4" />
               </Link>
@@ -109,18 +111,18 @@ export default function HomePage() {
                 { value: 100, prefix: "", suffix: "%", label: "CoA Coverage" },
               ].map((stat, i) => (
                 <div key={stat.label} className="text-center lg:text-left">
-                  <div className="font-display text-2xl sm:text-3xl font-bold text-navy mb-0.5">
+                  <div className="font-display text-2xl sm:text-3xl font-bold text-white mb-0.5">
                     {"text" in stat ? (
                       stat.text
                     ) : (
                       <>
                         {stat.prefix}
-                        <NumberTicker value={stat.value} delay={2.2 + i * 0.2} className="text-navy" />
+                        <NumberTicker value={stat.value} delay={2.2 + i * 0.2} className="text-white" />
                         {stat.suffix}
                       </>
                     )}
                   </div>
-                  <div className="text-steel text-xs">{stat.label}</div>
+                  <div className="text-white/50 text-xs">{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -129,7 +131,7 @@ export default function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 2.8, duration: 0.6 }}
-              className="text-slate/30 text-xs mt-8"
+              className="text-white/20 text-xs mt-8"
             >
               For Research Use Only &middot; Not for Human Consumption &middot; Not FDA Approved &middot; Not a Supplement
             </motion.p>
@@ -143,16 +145,16 @@ export default function HomePage() {
       </section>
 
       {/* ───── FEATURED PRODUCTS + TRUST BENTO ───── */}
-      <section className="relative pt-16 pb-24 px-4 overflow-hidden">
+      <section className="relative pt-16 pb-24 px-4 overflow-hidden bg-gradient-to-b from-[#0a1f3d] to-[#0D2137]">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
-            <p className="text-royal font-display text-sm font-semibold tracking-wider uppercase text-center mb-3">Catalog</p>
+            <p className="text-sky font-display text-sm font-semibold tracking-wider uppercase text-center mb-3">Catalog</p>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-navy text-center mb-4">Featured Research Peptides</h2>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white text-center mb-4">Featured Research Peptides</h2>
           </FadeIn>
           <FadeIn delay={0.15}>
-            <p className="text-steel text-center max-w-xl mx-auto mb-16">Our most requested peptides and compounds, ready to ship.</p>
+            <p className="text-white/60 text-center max-w-xl mx-auto mb-16">Our most requested peptides and compounds, ready to ship.</p>
           </FadeIn>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -160,9 +162,9 @@ export default function HomePage() {
               <FadeIn key={product.name} delay={0.05 + i * 0.08}>
                 <motion.div whileHover={{ y: -4, transition: { duration: 0.2 } }}>
                 <ShineBorder borderRadius={12} borderWidth={1} duration={16} color={["#2196F3", "#1565C0", "#4FC3F7"]} className="group bg-white overflow-hidden cursor-pointer">
-                  <div className="bg-gradient-to-br from-mist to-silver/20 h-48 flex items-center justify-center relative overflow-hidden rounded-t-[11px]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-royal/[0.03] to-cerulean/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <FlaskConical className="w-12 h-12 text-silver group-hover:text-royal/40 transition-colors duration-300" />
+                  <div className="bg-gradient-to-br from-navy to-deep-blue h-48 flex items-center justify-center relative overflow-hidden rounded-t-[11px]">
+                    <div className="absolute inset-0 bg-gradient-to-br from-royal/20 to-cerulean/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <FlaskConical className="w-12 h-12 text-sky/40 group-hover:text-sky/70 transition-colors duration-300" />
                   </div>
                   <div className="p-5">
                     <h3 className="font-display text-base font-semibold text-navy mb-0.5">{product.name}</h3>
@@ -184,7 +186,7 @@ export default function HomePage() {
           <FadeIn delay={0.3}>
             <div className="text-center mt-12">
               <motion.div className="inline-block" whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                <Link href="/shop" className="inline-flex items-center gap-2 text-royal font-display font-semibold hover:text-deep-blue transition-colors">
+                <Link href="/shop" className="inline-flex items-center gap-2 text-sky font-display font-semibold hover:text-white transition-colors">
                   View All Peptides
                   <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -196,13 +198,13 @@ export default function HomePage() {
         <div className="relative mt-24 mx-auto max-w-6xl overflow-hidden">
           <BackgroundBeams className="opacity-40" />
           <FadeIn>
-            <p className="text-royal font-display text-sm font-semibold tracking-wider uppercase text-center mb-3">Why Genara Labs</p>
+            <p className="text-sky font-display text-sm font-semibold tracking-wider uppercase text-center mb-3">Why Genara Labs</p>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-navy text-center mb-4">Built for Researchers Who Won&apos;t Compromise</h2>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white text-center mb-4">Built for Researchers Who Won&apos;t Compromise</h2>
           </FadeIn>
           <FadeIn delay={0.15}>
-            <p className="text-steel text-center max-w-xl mx-auto mb-16">Every compound we supply meets the standards your research demands.</p>
+            <p className="text-white/60 text-center max-w-xl mx-auto mb-16">Every compound we supply meets the standards your research demands.</p>
           </FadeIn>
 
           <div className="relative z-10 grid grid-cols-6 gap-3">
