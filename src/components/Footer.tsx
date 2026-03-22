@@ -148,11 +148,11 @@ export default function Footer() {
           <div>
             <div className="flex justify-center gap-2.5 sm:justify-start items-center">
               <Image
-                src="/genara-logo.png"
+                src="/genara-badge.png"
                 alt="Genara Labs"
-                width={160}
-                height={36}
-                className="h-9 w-auto brightness-0 invert"
+                width={200}
+                height={200}
+                className="h-20 w-auto mix-blend-screen opacity-90"
               />
             </div>
 
