@@ -123,9 +123,9 @@ export default function Header() {
             <Image
               src="/genara-logo-transparent.png"
               alt="Genara Labs"
-              width={320}
-              height={80}
-              className="h-14 w-auto"
+              width={400}
+              height={100}
+              className="h-[62px] sm:h-[68px] w-auto"
               priority
             />
           </Link>
