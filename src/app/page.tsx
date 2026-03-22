@@ -66,23 +66,11 @@ export default function HomePage() {
               />
             </h1>
 
-            {/* Subtext */}
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1, duration: 0.7, ease: "easeOut" }}
-              className="text-base sm:text-lg leading-relaxed mb-12 max-w-lg mx-auto lg:mx-0"
-              style={{ color: "rgba(255,255,255,0.55)", fontWeight: 400 }}
-            >
-              Third-party tested. Certificate of Analysis with every order.
-              Trusted by researchers nationwide.
-            </motion.p>
-
             {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5, duration: 0.7, ease: "easeOut" }}
+              transition={{ delay: 1.1, duration: 0.7, ease: "easeOut" }}
               className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 mb-16"
             >
               <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 20 }}>
