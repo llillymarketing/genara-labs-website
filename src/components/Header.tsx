@@ -121,11 +121,11 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0" onClick={closeAll}>
             <Image
-              src="/genara-logo.png"
+              src="/genara-logo-transparent.png"
               alt="Genara Labs"
               width={320}
               height={80}
-              className="h-16 w-auto mix-blend-multiply"
+              className="h-14 w-auto"
               priority
             />
           </Link>
@@ -283,11 +283,11 @@ export default function Header() {
             {/* Header */}
             <div className="flex items-center justify-between px-4 h-[88px] border-b border-silver/40">
               <Image
-                src="/genara-logo.png"
+                src="/genara-logo-transparent.png"
                 alt="Genara Labs"
                 width={320}
                 height={80}
-                className="h-10 w-auto mix-blend-multiply"
+                className="h-10 w-auto"
               />
               <button
                 onClick={() => setMenuOpen(false)}
