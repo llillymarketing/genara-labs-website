@@ -10,18 +10,30 @@ export default function MobileDNAVideo() {
     if (!v) return;
 
     v.muted = true;
-    v.play().catch(() => {});
 
-    const resume = () => v.play().catch(() => {});
-    v.addEventListener("pause", resume);
-    v.addEventListener("ended", resume);
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") resume();
-    });
+    const play = () => v.play().catch(() => {});
+
+    // Fire immediately and on every readiness event so playback
+    // starts as early as possible — before full hydration if possible
+    play();
+    v.addEventListener("canplay", play);
+    v.addEventListener("loadedmetadata", play);
+    v.addEventListener("loadeddata", play);
+    v.addEventListener("pause", play);
+    v.addEventListener("ended", play);
+
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") play();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      v.removeEventListener("pause", resume);
-      v.removeEventListener("ended", resume);
+      v.removeEventListener("canplay", play);
+      v.removeEventListener("loadedmetadata", play);
+      v.removeEventListener("loadeddata", play);
+      v.removeEventListener("pause", play);
+      v.removeEventListener("ended", play);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
