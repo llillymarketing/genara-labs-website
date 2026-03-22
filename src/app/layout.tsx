@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollProgress from "@/components/ScrollProgress";
 import AgeGate from "@/components/AgeGate";
 import { CartProvider } from "@/components/CartDrawer";
 import { AuthProvider } from "@/lib/auth";
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body className="antialiased">
         <AuthProvider>
           <CartProvider>
+            <ScrollProgress />
             <AgeGate />
             <Header />
             <div className="h-[72px]" />
