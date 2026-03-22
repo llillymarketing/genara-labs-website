@@ -114,6 +114,11 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+@keyframes dnaScroll {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
 @keyframes shine {
   0% { background-position: 0% 0%; }
   50% { background-position: 100% 100%; }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import DNAHero from "@/components/DNAHero";
+import DNAMobileBg from "@/components/DNAMobileBg";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Card, CardContent } from "@/components/ui/card";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
@@ -30,17 +31,8 @@ export default function HomePage() {
         <div className="absolute inset-0 pointer-events-none hidden lg:block"
           style={{ background: "radial-gradient(ellipse 70% 70% at 65% 45%, rgba(37,99,235,0.18) 0%, transparent 65%)" }} />
 
-        {/* Mobile-only subtle ambient glow pulse */}
-        <motion.div
-          className="lg:hidden absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          animate={{ scale: [1, 1.18, 1], opacity: [0.5, 0.85, 0.5] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            width: "320px",
-            height: "320px",
-            background: "radial-gradient(ellipse, rgba(37,99,235,0.13) 0%, transparent 70%)",
-          }}
-        />
+        {/* Mobile DNA helix background */}
+        <DNAMobileBg />
 
         {/* Thin accent line */}
         <motion.div
