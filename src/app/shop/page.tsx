@@ -7,7 +7,6 @@ import { FlaskConical, SlidersHorizontal, ShoppingCart } from "lucide-react";
 import { useCart } from "@/components/CartDrawer";
 import { FadeIn } from "@/components/ui/fade-in";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { ShineBorder } from "@/components/ui/shine-border";
 
 const categories = [
   "All Compounds",
@@ -118,18 +117,20 @@ export default function ShopPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
               {filtered.map((product, i) => (
                 <FadeIn key={product.name} delay={0.03 * i}>
-                  <motion.div whileHover={{ y: -4, transition: { duration: 0.2 } }}>
-                  <ShineBorder
-                    borderRadius={12}
-                    borderWidth={1}
-                    duration={16}
-                    color={["#2196F3", "#1565C0", "#4FC3F7"]}
-                    className="group bg-white overflow-hidden"
+                  <motion.div
+                    whileHover={{ y: -5, transition: { duration: 0.18 } }}
+                    className="group bg-white rounded-xl border border-silver/30 overflow-hidden transition-all duration-300 hover:border-royal/20"
+                    style={{ boxShadow: "0 1px 8px rgba(13,33,55,0.06)" }}
+                    onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 8px 32px rgba(13,33,55,0.12), 0 0 0 1px rgba(21,101,192,0.08)")}
+                    onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 1px 8px rgba(13,33,55,0.06)")}
                   >
                     <Link href={`/shop/${product.slug}`} className="block">
-                      <div className="bg-gradient-to-br from-navy to-deep-blue h-44 flex items-center justify-center relative overflow-hidden rounded-t-[11px]">
-                        <div className="absolute inset-0 bg-gradient-to-br from-royal/20 to-cerulean/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <FlaskConical className="w-10 h-10 text-sky/40 group-hover:text-sky/70 transition-colors duration-300" />
+                      <div className="bg-gradient-to-br from-navy via-deep-blue to-[#0a1f3d] h-44 flex items-center justify-center relative overflow-hidden">
+                        <div className="absolute inset-0 opacity-[0.04]"
+                          style={{ backgroundImage: "linear-gradient(#4FC3F7 1px, transparent 1px), linear-gradient(90deg, #4FC3F7 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          style={{ background: "radial-gradient(ellipse at center, rgba(79,195,247,0.07) 0%, transparent 65%)" }} />
+                        <FlaskConical className="w-10 h-10 text-sky/35 group-hover:text-sky/65 transition-colors duration-300 relative z-10" />
                       </div>
                     </Link>
                     <div className="p-5">
@@ -154,14 +155,13 @@ export default function ShopPage() {
                               price: parseFloat(product.price.replace("$", "")),
                             })
                           }
-                          className="inline-flex items-center gap-1.5 bg-royal text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-deep-blue transition-colors cursor-pointer"
+                          className="btn-glow inline-flex items-center gap-1.5 bg-royal text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-deep-blue transition-all duration-200 cursor-pointer"
                         >
                           <ShoppingCart className="w-3.5 h-3.5" />
                           Add to Cart
                         </button>
                       </div>
                     </div>
-                  </ShineBorder>
                   </motion.div>
                 </FadeIn>
               ))}

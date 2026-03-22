@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import MolecularOrbital from "@/components/MolecularOrbital";
 import { FadeIn } from "@/components/ui/fade-in";
 import { BackgroundBeams } from "@/components/ui/background-beams";
-import { ShineBorder } from "@/components/ui/shine-border";
 import { Card, CardContent } from "@/components/ui/card";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
@@ -86,7 +85,7 @@ export default function HomePage() {
               className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 mb-12"
             >
               <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                <Link href="/shop" className="inline-flex items-center gap-2 bg-white text-navy px-8 py-3.5 rounded-lg font-display font-semibold text-lg hover:bg-ice transition-colors shadow-lg shadow-black/30">
+                <Link href="/shop" className="btn-glow inline-flex items-center gap-2 bg-white text-navy px-8 py-3.5 rounded-xl font-display font-semibold text-lg hover:bg-ice transition-all duration-200 shadow-lg shadow-black/30">
                   Browse Peptides
                   <ArrowRight className="w-5 h-5" />
                 </Link>
@@ -160,24 +159,35 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {featuredProducts.map((product, i) => (
               <FadeIn key={product.name} delay={0.05 + i * 0.08}>
-                <motion.div whileHover={{ y: -4, transition: { duration: 0.2 } }}>
-                <ShineBorder borderRadius={12} borderWidth={1} duration={16} color={["#2196F3", "#1565C0", "#4FC3F7"]} className="group bg-white overflow-hidden cursor-pointer">
-                  <div className="bg-gradient-to-br from-navy to-deep-blue h-48 flex items-center justify-center relative overflow-hidden rounded-t-[11px]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-royal/20 to-cerulean/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <FlaskConical className="w-12 h-12 text-sky/40 group-hover:text-sky/70 transition-colors duration-300" />
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-display text-base font-semibold text-navy mb-0.5">{product.name}</h3>
-                    <p className="text-xs text-slate mb-3">{product.variant} &middot; For Research Use Only</p>
+                <motion.div
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  className="group rounded-2xl bg-white/[0.06] backdrop-blur-sm border border-white/[0.10] overflow-hidden hover:bg-white/[0.10] hover:border-white/20 transition-all duration-300 cursor-pointer"
+                  style={{ boxShadow: "0 1px 32px rgba(0,0,0,0.18)" }}
+                >
+                  <Link href={`/shop/${product.name.toLowerCase().replace(/\s+/g, "-")}`}>
+                    <div className="h-44 flex items-center justify-center relative overflow-hidden"
+                      style={{ background: "linear-gradient(135deg, rgba(15,52,96,0.6) 0%, rgba(13,33,55,0.4) 100%)" }}>
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{ background: "radial-gradient(ellipse at center, rgba(79,195,247,0.08) 0%, transparent 70%)" }} />
+                      {/* Subtle grid lines */}
+                      <div className="absolute inset-0 opacity-[0.04]"
+                        style={{ backgroundImage: "linear-gradient(#4FC3F7 1px, transparent 1px), linear-gradient(90deg, #4FC3F7 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+                      <FlaskConical className="w-11 h-11 text-sky/35 group-hover:text-sky/65 transition-colors duration-300 relative z-10" />
+                    </div>
+                  </Link>
+                  <div className="p-5 border-t border-white/[0.07]">
+                    <Link href={`/shop/${product.name.toLowerCase().replace(/\s+/g, "-")}`}>
+                      <h3 className="font-display text-base font-semibold text-white mb-0.5 group-hover:text-sky transition-colors duration-200">{product.name}</h3>
+                    </Link>
+                    <p className="text-xs text-white/40 mb-4">{product.variant} &middot; Research Grade</p>
                     <div className="flex items-center justify-between">
-                      <span className="font-display text-lg font-bold text-navy">{product.price}</span>
-                      <Link href={`/shop/${product.name.toLowerCase().replace(/\s+/g, "-")}`} className="inline-flex items-center gap-1 text-royal text-sm font-semibold hover:text-deep-blue transition-colors">
+                      <span className="font-display text-lg font-bold text-white">{product.price}</span>
+                      <Link href={`/shop/${product.name.toLowerCase().replace(/\s+/g, "-")}`} className="inline-flex items-center gap-1 text-sky/80 text-sm font-semibold hover:text-sky transition-colors">
                         View Details
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
                   </div>
-                </ShineBorder>
                 </motion.div>
               </FadeIn>
             ))}

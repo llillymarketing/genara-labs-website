@@ -20,7 +20,7 @@
   --color-cloud: #F8FAFC;
 
   --font-display: "Space Grotesk", sans-serif;
-  --font-body: "DM Sans", sans-serif;
+  --font-body: "Inter", "DM Sans", sans-serif;
 
   --animate-shine: shine 14s infinite linear;
   --animate-marquee: marquee var(--duration) linear infinite;
@@ -166,14 +166,35 @@
   100% { transform: translateX(-50%) translateY(-10%); }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-body);
   color: var(--color-graphite);
   background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: rgba(79, 195, 247, 0.25);
+  color: #0D2137;
+}
+
+/* Premium button glow utility */
+.btn-glow:hover {
+  box-shadow: 0 0 24px rgba(21, 101, 192, 0.4), 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.btn-glow-sky:hover {
+  box-shadow: 0 0 24px rgba(79, 195, 247, 0.35), 0 4px 16px rgba(0,0,0,0.1);
 }
 
 :root {

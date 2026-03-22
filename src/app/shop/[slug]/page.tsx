@@ -307,7 +307,7 @@ export default function ProductPage() {
                 ].map((item) => (
                   <div
                     key={item.text}
-                    className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-mist/60 border border-silver/20"
+                    className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-white border border-silver/30 hover:border-royal/20 hover:shadow-sm transition-all duration-200"
                   >
                     <item.icon className="w-4 h-4 text-royal" />
                     <span className="text-[11px] text-steel font-medium text-center leading-tight">
@@ -403,7 +403,7 @@ export default function ProductPage() {
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className="flex-1 inline-flex items-center justify-center gap-2 bg-royal text-white font-display font-semibold text-base px-8 py-3.5 rounded-lg hover:bg-deep-blue transition-colors cursor-pointer"
+                  className="btn-glow flex-1 inline-flex items-center justify-center gap-2 bg-royal text-white font-display font-semibold text-base px-8 py-3.5 rounded-xl hover:bg-deep-blue transition-all duration-200 cursor-pointer"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   Add to Cart — ${(priceNum * qty).toFixed(2)}
