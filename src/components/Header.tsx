@@ -113,8 +113,8 @@ export default function Header() {
         role="banner"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-navy/98 backdrop-blur-lg border-b border-white/10"
-            : "bg-navy/90 backdrop-blur-md border-b border-white/5"
+            ? "bg-white/95 backdrop-blur-lg border-b border-silver/40"
+            : "bg-white/80 backdrop-blur-md border-b border-silver/20"
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-[88px]">
@@ -136,7 +136,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors font-medium text-[15px] font-display"
+                className="px-3 py-2 rounded-lg text-graphite hover:text-royal hover:bg-mist transition-colors font-medium text-[15px] font-display"
               >
                 {link.label}
               </Link>
@@ -149,18 +149,18 @@ export default function Header() {
             <div className="relative" ref={searchContainerRef}>
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="relative flex items-center justify-center size-9 rounded-lg border border-white/20 bg-white/10 hover:bg-white/15 transition-colors cursor-pointer xl:h-9 xl:w-56 xl:justify-between xl:px-3 xl:py-2"
+                className="relative flex items-center justify-center size-9 rounded-lg border border-silver/60 bg-white hover:bg-mist transition-colors cursor-pointer xl:h-9 xl:w-56 xl:justify-between xl:px-3 xl:py-2"
               >
-                <span className="hidden xl:inline-flex text-sm text-white/50">
+                <span className="hidden xl:inline-flex text-sm text-slate">
                   Search compounds...
                 </span>
                 <span className="sr-only">Search</span>
-                <Search className="size-4 text-white/60 xl:hidden" />
+                <Search className="size-4 text-slate xl:hidden" />
                 <div className="hidden xl:flex items-center gap-1">
-                  <kbd className="inline-flex items-center rounded border border-white/20 bg-white/10 px-1.5 py-0.5 text-[10px] text-white/50 font-mono">
+                  <kbd className="inline-flex items-center rounded border border-silver/60 bg-mist px-1.5 py-0.5 text-[10px] text-slate font-mono">
                     ⌘K
                   </kbd>
-                  <Search className="size-3.5 text-white/60" />
+                  <Search className="size-3.5 text-slate" />
                 </div>
               </button>
 
@@ -222,7 +222,7 @@ export default function Header() {
             {/* Account */}
             <Link
               href="/account"
-              className="flex items-center gap-1.5 size-9 md:w-auto md:h-9 md:px-3 justify-center rounded-lg border border-white/20 bg-white/10 hover:bg-white/15 transition-colors text-white/80 hover:text-white"
+              className="flex items-center gap-1.5 size-9 md:w-auto md:h-9 md:px-3 justify-center rounded-lg border border-silver/60 bg-white hover:bg-mist transition-colors text-graphite hover:text-royal"
               title="My Account"
             >
               <User className="size-4 shrink-0" />
@@ -232,7 +232,7 @@ export default function Header() {
             {/* Cart */}
             <button
               onClick={openCart}
-              className="relative flex items-center justify-center size-9 rounded-lg border border-white/20 bg-white/10 hover:bg-white/15 transition-colors text-white/80 hover:text-white cursor-pointer"
+              className="relative flex items-center justify-center size-9 rounded-lg border border-silver/60 bg-white hover:bg-mist transition-colors text-graphite hover:text-royal cursor-pointer"
               aria-label="Cart"
             >
               <ShoppingCart className="size-4" />
@@ -246,7 +246,7 @@ export default function Header() {
             {/* Browse Peptides CTA */}
             <Link
               href="/shop"
-              className="hidden md:inline-flex bg-sky text-navy px-5 py-2.5 rounded-lg text-[15px] font-semibold hover:bg-white transition-colors ml-1"
+              className="hidden md:inline-flex bg-royal text-white px-5 py-2.5 rounded-lg text-[15px] font-semibold hover:bg-deep-blue transition-colors ml-1"
             >
               Shop Peptides
             </Link>
@@ -254,7 +254,7 @@ export default function Header() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 text-white/80 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+              className="md:hidden p-2 text-graphite rounded-lg hover:bg-mist transition-colors cursor-pointer"
               aria-label="Toggle menu"
             >
               {menuOpen ? (
@@ -277,21 +277,21 @@ export default function Header() {
             onClick={() => setMenuOpen(false)}
           />
           <div
-            className="absolute inset-y-0 left-0 w-3/4 max-w-sm bg-navy border-r border-white/10 flex flex-col"
+            className="absolute inset-y-0 left-0 w-3/4 max-w-sm bg-white border-r border-silver/40 flex flex-col"
             style={{ animation: "slideInLeft 0.3s ease-out" }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 h-[88px] border-b border-white/10">
+            <div className="flex items-center justify-between px-4 h-[88px] border-b border-silver/40">
               <Image
                 src="/genara-logo.png"
                 alt="Genara Labs"
                 width={320}
                 height={80}
-                className="h-10 w-auto brightness-0 invert"
+                className="h-10 w-auto mix-blend-multiply"
               />
               <button
                 onClick={() => setMenuOpen(false)}
-                className="p-2 text-white/80 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                className="p-2 text-graphite rounded-lg hover:bg-mist transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -304,7 +304,7 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="block py-3 px-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 font-medium text-[16px] transition-colors"
+                  className="block py-3 px-3 rounded-lg text-graphite hover:text-royal hover:bg-mist font-medium text-[16px] transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -312,11 +312,11 @@ export default function Header() {
             </div>
 
             {/* Footer: Account, Sign In, Cart, CTA */}
-            <div className="p-4 border-t border-white/10 space-y-2">
+            <div className="p-4 border-t border-silver/40 space-y-2">
               <Link
                 href="/account"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-3 py-3 px-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 font-medium text-[16px] transition-colors"
+                className="flex items-center gap-3 py-3 px-3 rounded-lg text-graphite hover:text-royal hover:bg-mist font-medium text-[16px] transition-colors"
               >
                 <User className="size-5" />
                 My Account
@@ -324,14 +324,14 @@ export default function Header() {
               <Link
                 href="/sign-in"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-3 py-3 px-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 font-medium text-[16px] transition-colors"
+                className="flex items-center gap-3 py-3 px-3 rounded-lg text-graphite hover:text-royal hover:bg-mist font-medium text-[16px] transition-colors"
               >
                 <User className="size-5" />
                 Sign In
               </Link>
               <button
                 onClick={() => { setMenuOpen(false); openCart(); }}
-                className="flex items-center gap-3 w-full py-3 px-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 font-medium text-[16px] transition-colors text-left cursor-pointer"
+                className="flex items-center gap-3 w-full py-3 px-3 rounded-lg text-graphite hover:text-royal hover:bg-mist font-medium text-[16px] transition-colors text-left cursor-pointer"
               >
                 <ShoppingCart className="size-5" />
                 Cart
@@ -344,7 +344,7 @@ export default function Header() {
               <Link
                 href="/shop"
                 onClick={() => setMenuOpen(false)}
-                className="block bg-sky text-navy px-5 py-3 rounded-lg text-center font-semibold hover:bg-white transition-colors text-[16px] mt-2"
+                className="block bg-royal text-white px-5 py-3 rounded-lg text-center font-semibold hover:bg-deep-blue transition-colors text-[16px] mt-2"
               >
                 Shop Peptides
               </Link>
