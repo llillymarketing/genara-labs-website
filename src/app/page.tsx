@@ -23,13 +23,24 @@ export default function HomePage() {
     <main className="bg-white">
 
       {/* ───── HERO ───── */}
-      <section className="relative min-h-[92vh] py-28 flex items-center overflow-hidden"
+      <section className="relative min-h-[100svh] lg:min-h-[92vh] pt-20 pb-16 lg:py-28 flex items-center overflow-hidden"
         style={{ background: "linear-gradient(145deg, #0A1F44 0%, #0D2B5A 50%, #0A1F44 100%)" }}>
 
-
-        {/* Soft radial glow */}
-        <div className="absolute inset-0 pointer-events-none"
+        {/* Soft radial glow — desktop */}
+        <div className="absolute inset-0 pointer-events-none hidden lg:block"
           style={{ background: "radial-gradient(ellipse 70% 70% at 65% 45%, rgba(37,99,235,0.18) 0%, transparent 65%)" }} />
+
+        {/* Mobile-only subtle ambient glow pulse */}
+        <motion.div
+          className="lg:hidden absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          animate={{ scale: [1, 1.18, 1], opacity: [0.5, 0.85, 0.5] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            width: "320px",
+            height: "320px",
+            background: "radial-gradient(ellipse, rgba(37,99,235,0.13) 0%, transparent 70%)",
+          }}
+        />
 
         {/* Thin accent line */}
         <motion.div
@@ -40,7 +51,7 @@ export default function HomePage() {
           transition={{ duration: 2, ease: "easeInOut" }}
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-16 items-center w-full">
           <div className="text-center lg:text-left">
 
             {/* Badge */}
@@ -48,7 +59,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-              className="mb-10"
+              className="mb-5 lg:mb-8"
             >
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase"
                 style={{ background: "rgba(147,197,253,0.1)", border: "1px solid rgba(147,197,253,0.2)", color: "#93C5FD", letterSpacing: "0.08em" }}>
@@ -58,7 +69,7 @@ export default function HomePage() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-bold leading-[1.04] mb-7 text-white" style={{ letterSpacing: "-0.04em" }}>
+            <h1 className="font-display text-[2.6rem] sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-bold leading-[1.04] mb-4 lg:mb-5 text-white" style={{ letterSpacing: "-0.04em" }}>
               <TextGenerateEffect
                 words="Precision-Grade Research Compounds"
                 className="text-white [&_span]:text-white"
@@ -66,29 +77,45 @@ export default function HomePage() {
               />
             </h1>
 
+            {/* Subtext */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.6 }}
+              className="text-[15px] leading-relaxed mb-8 lg:mb-10 max-w-sm mx-auto lg:mx-0"
+              style={{ color: "rgba(255,255,255,0.62)" }}
+            >
+              Third-party verified. Certificate of Analysis with every batch.
+            </motion.p>
+
             {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1, duration: 0.7, ease: "easeOut" }}
-              className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 mb-16"
+              className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3 mb-4"
             >
-              <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 20 }}>
+              <motion.div
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="w-full sm:w-auto"
+              >
                 <Link href="/shop"
-                  className="inline-flex items-center gap-2.5 text-navy font-display font-semibold text-base px-7 py-3.5 rounded-xl transition-all duration-200"
-                  style={{ background: "linear-gradient(135deg, #ffffff 0%, #EFF6FF 100%)", boxShadow: "0 4px 16px rgba(37,99,235,0.18)" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(37,99,235,0.35)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(37,99,235,0.18)"; (e.currentTarget as HTMLElement).style.transform = ""; }}
+                  className="flex items-center justify-center gap-2.5 text-navy font-display font-semibold text-[15px] px-8 py-4 rounded-xl transition-all duration-200 w-full sm:w-auto"
+                  style={{ background: "linear-gradient(135deg, #ffffff 0%, #EFF6FF 100%)", boxShadow: "0 4px 20px rgba(37,99,235,0.22)" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(37,99,235,0.38)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(37,99,235,0.22)"; }}
                 >
-                  Browse Peptides
+                  Browse Compounds
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </motion.div>
               <Link href="/about"
-                className="inline-flex items-center gap-1.5 font-medium text-sm py-3.5 transition-colors"
-                style={{ color: "rgba(255,255,255,0.45)" }}
+                className="inline-flex items-center gap-1.5 font-medium text-sm py-4 transition-colors"
+                style={{ color: "rgba(255,255,255,0.48)" }}
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.85)"}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.45)"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.48)"}
               >
                 Learn More
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -100,10 +127,10 @@ export default function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5, duration: 0.7 }}
-              className="flex items-center gap-1.5 text-[12px] font-medium -mt-10 mb-16"
-              style={{ color: "rgba(255,255,255,0.38)" }}
+              className="flex items-center justify-center lg:justify-start gap-1.5 text-[11px] font-medium mb-12 lg:mb-16"
+              style={{ color: "rgba(255,255,255,0.36)" }}
             >
-              <Shield className="w-3 h-3 shrink-0" style={{ opacity: 0.6 }} />
+              <Shield className="w-3 h-3 shrink-0" style={{ opacity: 0.55 }} />
               Trusted by researchers nationwide
             </motion.p>
 
@@ -112,21 +139,21 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.9, duration: 0.7, ease: "easeOut" }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-6"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-6"
             >
               {[
-                { value: 98, prefix: "≥", suffix: "%", label: "Purity" },
+                { value: 99, suffix: "%+", label: "Verified Purity" },
                 { value: 60, suffix: "+", label: "Compounds" },
-                { text: "Same-Day", label: "Shipping" },
-                { value: 100, suffix: "%", label: "CoA Coverage" },
+                { text: "Same-Day", label: "Fulfillment" },
+                { value: 100, suffix: "%", label: "COA Coverage" },
               ].map((stat, i) => (
                 <div key={stat.label} className="text-center lg:text-left">
-                  <div className="font-display text-2xl font-bold text-white mb-1" style={{ letterSpacing: "-0.02em" }}>
+                  <div className="font-display text-3xl font-bold text-white mb-1" style={{ letterSpacing: "-0.03em" }}>
                     {"text" in stat ? stat.text : (
-                      <>{stat.prefix}<NumberTicker value={stat.value} delay={2.1 + i * 0.15} className="text-white" />{stat.suffix}</>
+                      <><NumberTicker value={stat.value} delay={2.1 + i * 0.15} className="text-white" />{stat.suffix}</>
                     )}
                   </div>
-                  <div className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.55)", letterSpacing: "0.04em" }}>{stat.label}</div>
+                  <div className="text-[11px] font-medium leading-tight" style={{ color: "rgba(255,255,255,0.58)", letterSpacing: "0.03em" }}>{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -135,14 +162,14 @@ export default function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 2.6, duration: 0.6 }}
-              className="text-[11px] mt-10"
-              style={{ color: "rgba(255,255,255,0.2)" }}
+              className="text-[10px] mt-8 text-center lg:text-left"
+              style={{ color: "rgba(255,255,255,0.18)" }}
             >
               For Research Use Only &middot; Not for Human Consumption &middot; Not FDA Approved
             </motion.p>
           </div>
 
-          {/* Right — DNA Helix */}
+          {/* Right — DNA Helix (desktop only) */}
           <div className="hidden lg:flex items-center justify-center" style={{ height: "660px" }}>
             <DNAHero />
           </div>
@@ -157,10 +184,10 @@ export default function HomePage() {
         <div className="absolute inset-0 pointer-events-none opacity-[0.02]"
           style={{ backgroundImage: "radial-gradient(circle, #93C5FD 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 py-28">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
 
           {/* Section header */}
-          <div className="mb-20 lg:mb-24">
+          <div className="mb-12 lg:mb-24">
             <FadeIn>
               <p className="text-xs font-semibold tracking-[0.12em] uppercase mb-5" style={{ color: "#93C5FD" }}>Catalog</p>
             </FadeIn>
@@ -245,11 +272,11 @@ export default function HomePage() {
       </section>
 
       {/* ───── TRUST / VALUE PROPS ───── */}
-      <section className="bg-white py-28 px-6 lg:px-12">
+      <section className="bg-white py-20 lg:py-28 px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
 
           {/* Section header */}
-          <div className="mb-20">
+          <div className="mb-12 lg:mb-20">
             <FadeIn>
               <p className="text-xs font-semibold tracking-[0.12em] uppercase mb-5 text-royal">Why Genara Labs</p>
             </FadeIn>
@@ -412,23 +439,23 @@ export default function HomePage() {
       </section>
 
       {/* ───── STATS BAND ───── */}
-      <section className="py-20 px-6 lg:px-12" style={{ background: "#0A1F44" }}>
+      <section className="py-16 lg:py-20 px-6 lg:px-12" style={{ background: "#0A1F44" }}>
         <div className="max-w-6xl mx-auto">
           <FadeIn>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
               {[
-                { value: 60, suffix: "+", label: "Compounds Available" },
-                { value: 98, prefix: "≥", suffix: "%", label: "Verified Purity" },
-                { text: "Same-Day", label: "Order Fulfillment" },
-                { value: 100, suffix: "%", label: "CoA Included" },
+                { value: 60, suffix: "+", label: "Research Compounds" },
+                { value: 99, suffix: "%+", label: "Verified Purity" },
+                { text: "Same-Day", label: "Fulfillment" },
+                { value: 100, suffix: "%", label: "COA Transparency" },
               ].map((stat, i) => (
                 <div key={stat.label} className="text-center">
-                  <div className="font-display text-3xl sm:text-4xl font-bold text-white mb-2" style={{ letterSpacing: "-0.03em" }}>
+                  <div className="font-display text-4xl sm:text-5xl font-bold text-white mb-2" style={{ letterSpacing: "-0.03em" }}>
                     {"text" in stat ? stat.text : (
-                      <>{stat.prefix}<NumberTicker value={stat.value} delay={0.2 + i * 0.12} className="text-white" />{stat.suffix}</>
+                      <><NumberTicker value={stat.value} delay={0.2 + i * 0.12} className="text-white" />{stat.suffix}</>
                     )}
                   </div>
-                  <div className="text-xs font-medium tracking-wider" style={{ color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em" }}>{stat.label}</div>
+                  <div className="text-[11px] font-medium" style={{ color: "rgba(255,255,255,0.62)", letterSpacing: "0.05em" }}>{stat.label}</div>
                 </div>
               ))}
             </div>
