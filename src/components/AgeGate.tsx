@@ -12,8 +12,14 @@ export default function AgeGate() {
   useEffect(() => {
     const verified = localStorage.getItem("genara-age-verified");
     if (!verified) {
-      setShow(true);
-      document.body.style.overflow = "hidden";
+      // Delay until after preloader finishes (1.5s animation + 0.45s fade = ~2s)
+      const preloaderSeen = sessionStorage.getItem("genara-preloader");
+      const delay = preloaderSeen ? 0 : 2000;
+      const t = setTimeout(() => {
+        setShow(true);
+        document.body.style.overflow = "hidden";
+      }, delay);
+      return () => clearTimeout(t);
     }
   }, []);
 

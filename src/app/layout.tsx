@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
+import Preloader from "@/components/Preloader";
 import AgeGate from "@/components/AgeGate";
 import { CartProvider } from "@/components/CartDrawer";
 import { AuthProvider } from "@/lib/auth";
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body className="antialiased">
         <AuthProvider>
           <CartProvider>
+            <Preloader />
             <ScrollProgress />
             <AgeGate />
             <Header />
