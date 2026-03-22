@@ -125,7 +125,7 @@ export default function Header() {
               alt="Genara Labs"
               width={400}
               height={100}
-              className="h-[78px] sm:h-[84px] w-auto"
+              className="w-[195px] h-auto sm:w-auto sm:h-[84px]"
               priority
             />
           </Link>
