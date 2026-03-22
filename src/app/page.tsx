@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import MobileDNAVideo from "@/components/MobileDNAVideo";
 import DNAHero from "@/components/DNAHero";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,17 +20,6 @@ const featuredProducts = [
 ];
 
 export default function HomePage() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.play().catch(() => {});
-    const onPause = () => v.play().catch(() => {});
-    v.addEventListener("pause", onPause);
-    return () => v.removeEventListener("pause", onPause);
-  }, []);
-
   return (
     <main className="bg-white">
 
@@ -43,18 +32,7 @@ export default function HomePage() {
           style={{ background: "radial-gradient(ellipse 70% 70% at 65% 45%, rgba(37,99,235,0.18) 0%, transparent 65%)" }} />
 
         {/* Mobile DNA video background */}
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          disablePictureInPicture
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.13] pointer-events-none lg:hidden"
-
-        >
-          <source src="/dna-bg.mp4" type="video/mp4" />
-        </video>
+        <MobileDNAVideo />
 
         {/* Thin accent line */}
         <motion.div
