@@ -46,8 +46,8 @@ export default function ShopPage() {
     <main>
       {/* Page Header — clean, no banner */}
       <section className="pt-20 pb-10 bg-gradient-to-br from-navy via-deep-blue to-[#0a1f3d] relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(79,195,247,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(79,195,247,0.04) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 80% at 20% 50%, rgba(21,101,192,0.2) 0%, transparent 70%)" }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(147,197,253,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(147,197,253,0.04) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 80% at 20% 50%, rgba(37,99,235,0.2) 0%, transparent 70%)" }} />
         <div className="relative max-w-6xl mx-auto px-4">
           <FadeIn>
             <p className="text-sky font-display text-sm font-semibold tracking-wider uppercase mb-3">
@@ -127,9 +127,9 @@ export default function ShopPage() {
                     <Link href={`/shop/${product.slug}`} className="block">
                       <div className="bg-gradient-to-br from-navy via-deep-blue to-[#0a1f3d] h-44 flex items-center justify-center relative overflow-hidden">
                         <div className="absolute inset-0 opacity-[0.04]"
-                          style={{ backgroundImage: "linear-gradient(#4FC3F7 1px, transparent 1px), linear-gradient(90deg, #4FC3F7 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+                          style={{ backgroundImage: "linear-gradient(#93C5FD 1px, transparent 1px), linear-gradient(90deg, #93C5FD 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          style={{ background: "radial-gradient(ellipse at center, rgba(79,195,247,0.07) 0%, transparent 65%)" }} />
+                          style={{ background: "radial-gradient(ellipse at center, rgba(147,197,253,0.08) 0%, transparent 65%)" }} />
                         <FlaskConical className="w-10 h-10 text-sky/35 group-hover:text-sky/65 transition-colors duration-300 relative z-10" />
                       </div>
                     </Link>

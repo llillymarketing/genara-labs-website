@@ -5,19 +5,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-navy: #0D2137;
-  --color-deep-blue: #0F3460;
-  --color-royal: #1565C0;
-  --color-cerulean: #2196F3;
-  --color-sky: #4FC3F7;
-  --color-ice: #E1F5FE;
-  --color-carbon: #0B1120;
-  --color-graphite: #1E293B;
-  --color-steel: #475569;
-  --color-slate: #64748B;
-  --color-silver: #CBD5E1;
-  --color-mist: #F1F5F9;
-  --color-cloud: #F8FAFC;
+  /* ── Restrained biotech palette — fewer colors, more contrast ── */
+  --color-navy: #0A1F44;        /* primary dark — deeper, richer */
+  --color-deep-blue: #0D2B5A;   /* secondary dark */
+  --color-royal: #2563EB;       /* ACCENT ONLY — buttons, links, highlights */
+  --color-cerulean: #3B82F6;    /* accent variant */
+  --color-sky: #93C5FD;         /* light accent tint */
+  --color-ice: #EFF6FF;         /* subtle accent background */
+  --color-carbon: #070F1F;      /* deepest dark */
+  --color-graphite: #0F172A;    /* primary text */
+  --color-steel: #334155;       /* secondary text */
+  --color-slate: #64748B;       /* tertiary / muted text */
+  --color-silver: #CBD5E1;      /* borders */
+  --color-mist: #F8FAFC;        /* subtle section bg */
+  --color-cloud: #FFFFFF;       /* clean white */
 
   --font-display: var(--font-space-grotesk), "Space Grotesk", sans-serif;
   --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
