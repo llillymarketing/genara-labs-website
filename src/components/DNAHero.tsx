@@ -3,34 +3,34 @@
 import { useEffect, useRef } from "react";
 
 /* ─── Geometry ─── */
-const W          = 580;   // wider to accommodate callouts
-const H          = 660;
-const CX         = 215;   // helix shifted left, leaving room for callouts
-const AMP        = 140;
-const PERIOD     = 152;
-const N_PERIODS  = 4.4;
-const TH         = PERIOD * N_PERIODS;   // ≈ 669 px
-const Y0         = H / 2 - TH / 2;      // ≈ -4.5 (helix starts just above top)
-const NODES_PP   = 12;
-const N_NODES    = Math.round(N_PERIODS * NODES_PP);  // 53
-const CURVE_PTS  = Math.round(N_PERIODS * 52);        // 229
-const ROT_DUR    = 9;    // seconds per revolution
+const W         = 580;
+const H         = 660;
+const CX        = 215;
+const AMP       = 140;
+const PERIOD    = 152;
+const N_PERIODS = 4.4;
+const TH        = PERIOD * N_PERIODS;
+const Y0        = H / 2 - TH / 2;
+const NODES_PP  = 12;
+const N_NODES   = Math.round(N_PERIODS * NODES_PP);
+const CURVE_PTS = Math.round(N_PERIODS * 52);
+const ROT_DUR   = 9;
 
-/* ─── Callout data ─── */
-const CALLOUTS = [
-  { id: "purity",   title: "99%+ Purity",         sub: "HPLC Verified",     anchorY: 150, drawDelay: 1.6, floatOff: "0s",   floatDur: "3.9s" },
-  { id: "tested",   title: "Third-Party Tested",   sub: "Independent Labs",  anchorY: 295, drawDelay: 2.1, floatOff: "1.4s", floatDur: "4.3s" },
-  { id: "coa",      title: "Full COA Included",    sub: "Every Batch",       anchorY: 440, drawDelay: 2.6, floatOff: "0.8s", floatDur: "3.7s" },
-  { id: "shipping", title: "Same-Day Shipping",    sub: "Fast Fulfillment",  anchorY: 578, drawDelay: 3.1, floatOff: "2.2s", floatDur: "4.6s" },
-];
-
-/* Right edge of helix = CX + AMP = 355 */
-const HELIX_RIGHT = CX + AMP;          // 355
-const CONN_END    = HELIX_RIGHT + 30;  // 385 — where connector meets card
-const CARD_X      = CONN_END + 2;      // 387
+/* ─── Connector / card geometry ─── */
+const HELIX_RIGHT = CX + AMP;       // 355 — right edge of helix
+const CONN_END    = HELIX_RIGHT + 44; // 399
+const CARD_X      = CONN_END + 4;   // 403
 const CARD_W      = 168;
-const CARD_H      = 46;
-const CONN_LEN    = CONN_END - HELIX_RIGHT; // 30
+const CARD_H      = 52;
+const CONN_LEN    = CONN_END - HELIX_RIGHT; // 44
+
+/* ─── Callouts — evenly distributed top-to-bottom ─── */
+const CALLOUTS = [
+  { id: "purity",   title: "99%+ Purity",        sub: "HPLC Verified",    anchorY: 115, drawDelay: 1.5, floatOff: "0s",   floatDur: "4.0s" },
+  { id: "tested",   title: "Third-Party Tested",  sub: "Independent Labs", anchorY: 268, drawDelay: 2.0, floatOff: "1.5s", floatDur: "4.4s" },
+  { id: "coa",      title: "Full COA Included",   sub: "Every Batch",      anchorY: 421, drawDelay: 2.5, floatOff: "0.9s", floatDur: "3.8s" },
+  { id: "shipping", title: "Same-Day Shipping",   sub: "Fast Fulfillment", anchorY: 562, drawDelay: 3.0, floatOff: "2.3s", floatDur: "4.7s" },
+];
 
 /* ─── Color interpolation: back (#1E3A8A) → front (#7DD3FC) ─── */
 function nodeColor(depth: number): string {
@@ -52,15 +52,15 @@ function strandPath(rot: number, phase: number): string {
 }
 
 /* ─── Deterministic particles ─── */
-const PARTICLES = Array.from({ length: 30 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 28 }, (_, i) => ({
   id: i,
-  x:  12 + (i * 77.3)  % (W - 200),   // keep particles in helix area
-  y:  8  + (i * 129.7) % (H - 16),
-  r:  0.8 + (i % 5) * 0.5,
-  op: 0.14 + (i % 4) * 0.07,
+  x:  14 + (i * 77.3)  % (W - 230),
+  y:  10 + (i * 131.9) % (H - 20),
+  r:  0.7 + (i % 5) * 0.45,
+  op: 0.13 + (i % 4) * 0.06,
 }));
 
-/* ─── Pre-compute initial state (rot = 0) ─── */
+/* ─── Pre-compute initial state ─── */
 function initNodes(phase: number) {
   return Array.from({ length: N_NODES }, (_, i) => {
     const frac  = (i + 0.5) / N_NODES;
@@ -94,13 +94,13 @@ export default function DNAHero() {
     const svg = svgRef.current;
     if (!svg) return;
 
-    const pA   = svg.querySelector("#dh-pA")  as SVGPathElement;
-    const pAg  = svg.querySelector("#dh-pAg") as SVGPathElement;
-    const pB   = svg.querySelector("#dh-pB")  as SVGPathElement;
-    const pBg  = svg.querySelector("#dh-pBg") as SVGPathElement;
-    const nA   = Array.from({ length: N_NODES }, (_, i) => svg.querySelector(`#dh-nA${i}`) as SVGCircleElement);
-    const nB   = Array.from({ length: N_NODES }, (_, i) => svg.querySelector(`#dh-nB${i}`) as SVGCircleElement);
-    const rg   = Array.from({ length: N_NODES }, (_, i) => svg.querySelector(`#dh-rg${i}`) as SVGLineElement);
+    const pA  = svg.querySelector("#dh-pA")  as SVGPathElement;
+    const pAg = svg.querySelector("#dh-pAg") as SVGPathElement;
+    const pB  = svg.querySelector("#dh-pB")  as SVGPathElement;
+    const pBg = svg.querySelector("#dh-pBg") as SVGPathElement;
+    const nA  = Array.from({ length: N_NODES }, (_, i) => svg.querySelector(`#dh-nA${i}`) as SVGCircleElement);
+    const nB  = Array.from({ length: N_NODES }, (_, i) => svg.querySelector(`#dh-nB${i}`) as SVGCircleElement);
+    const rg  = Array.from({ length: N_NODES }, (_, i) => svg.querySelector(`#dh-rg${i}`)  as SVGLineElement);
 
     const start = performance.now();
     let raf: number;
@@ -110,15 +110,15 @@ export default function DNAHero() {
 
       const dA = strandPath(rot, 0);
       const dB = strandPath(rot, Math.PI);
-      pA?.setAttribute("d", dA); pAg?.setAttribute("d", dA);
-      pB?.setAttribute("d", dB); pBg?.setAttribute("d", dB);
+      pA?.setAttribute("d", dA);  pAg?.setAttribute("d", dA);
+      pB?.setAttribute("d", dB);  pBg?.setAttribute("d", dB);
 
       for (let i = 0; i < N_NODES; i++) {
         const frac = (i + 0.5) / N_NODES;
         const y    = (Y0 + frac * TH).toFixed(1);
 
-        const aA   = frac * N_PERIODS * 2 * Math.PI + rot;
-        const dA_  = Math.cos(aA);
+        const aA  = frac * N_PERIODS * 2 * Math.PI + rot;
+        const dA_ = Math.cos(aA);
         if (nA[i]) {
           nA[i].setAttribute("cx", (CX + AMP * Math.sin(aA)).toFixed(1));
           nA[i].setAttribute("cy", y);
@@ -127,8 +127,8 @@ export default function DNAHero() {
           nA[i].setAttribute("fill", nodeColor(dA_));
         }
 
-        const aB   = aA + Math.PI;
-        const dB_  = Math.cos(aB);
+        const aB  = aA + Math.PI;
+        const dB_ = Math.cos(aB);
         if (nB[i]) {
           nB[i].setAttribute("cx", (CX + AMP * Math.sin(aB)).toFixed(1));
           nB[i].setAttribute("cy", y);
@@ -165,27 +165,69 @@ export default function DNAHero() {
       overflow="visible"
     >
       <defs>
+        {/* Strand glow */}
         <filter id="dh-gs" x="-40%" y="-5%" width="180%" height="110%">
           <feGaussianBlur stdDeviation="5" result="b" />
           <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
+
+        {/* Node glow */}
         <filter id="dh-gn" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="3" result="b" />
+          <feGaussianBlur stdDeviation="3.2" result="b" />
           <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
+
+        {/* Ambient halo blur */}
         <filter id="dh-halo" x="-50%" y="-20%" width="200%" height="140%">
-          <feGaussianBlur stdDeviation="26" />
+          <feGaussianBlur stdDeviation="28" />
         </filter>
-        {/* Card backdrop blur (approximate) */}
-        <filter id="dh-card" x="-5%" y="-15%" width="110%" height="130%">
-          <feGaussianBlur stdDeviation="8" result="b" />
-          <feComposite in="SourceGraphic" in2="b" operator="over" />
+
+        {/* Connector line glow */}
+        <filter id="dh-cg" x="-15%" y="-250%" width="130%" height="600%">
+          <feGaussianBlur stdDeviation="1.8" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+
+        {/* Card drop shadow */}
+        <filter id="dh-shadow" x="-15%" y="-25%" width="145%" height="165%">
+          <feDropShadow dx="2" dy="6" stdDeviation="10" floodColor="#03091f" floodOpacity="0.6" />
+        </filter>
+
+        {/* Connector gradient — brighter toward the card */}
+        <linearGradient id="dh-connGrad" x1={HELIX_RIGHT} y1="0" x2={CONN_END} y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stopColor="#38BDF8" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#BAE6FD" stopOpacity="0.95" />
+        </linearGradient>
+
+        {/* Card background gradient */}
+        <linearGradient id="dh-cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stopColor="#152D62" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#09183a" stopOpacity="0.95" />
+        </linearGradient>
+
+        {/* Card border glow */}
+        <filter id="dh-cborder" x="-5%" y="-10%" width="115%" height="125%">
+          <feGaussianBlur stdDeviation="2" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
 
-      {/* Ambient halo */}
-      <ellipse cx={CX} cy={H / 2} rx={AMP + 40} ry={TH * 0.52}
-        fill="rgba(37,99,235,0.16)" filter="url(#dh-halo)" />
+      {/* ── Ambient halo — pulses gently ── */}
+      <ellipse
+        cx={CX} cy={H / 2}
+        rx={AMP + 38} ry={TH * 0.50}
+        fill="rgb(37,99,235)" fillOpacity="0.18"
+        filter="url(#dh-halo)"
+      >
+        <animate attributeName="rx"
+          values={`${AMP + 32};${AMP + 52};${AMP + 32}`}
+          dur="5.8s" repeatCount="indefinite"
+          calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1" />
+        <animate attributeName="fillOpacity"
+          values="0.14;0.24;0.14"
+          dur="5.8s" repeatCount="indefinite"
+          calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1" />
+      </ellipse>
 
       {/* Particles */}
       {PARTICLES.map((p) => (
@@ -200,19 +242,19 @@ export default function DNAHero() {
           stroke="#38BDF8" strokeWidth="1.1" opacity={r.op} />
       ))}
 
-      {/* Strand glow */}
-      <path id="dh-pAg" d={INIT_PA} stroke="#38BDF8" strokeWidth="6" strokeLinecap="round" opacity="0.26" filter="url(#dh-gs)" />
-      <path id="dh-pBg" d={INIT_PB} stroke="#38BDF8" strokeWidth="6" strokeLinecap="round" opacity="0.26" filter="url(#dh-gs)" />
+      {/* Strand glow passes */}
+      <path id="dh-pAg" d={INIT_PA} stroke="#38BDF8" strokeWidth="6.5" strokeLinecap="round" opacity="0.28" filter="url(#dh-gs)" />
+      <path id="dh-pBg" d={INIT_PB} stroke="#38BDF8" strokeWidth="6.5" strokeLinecap="round" opacity="0.28" filter="url(#dh-gs)" />
 
-      {/* Strands */}
-      <path id="dh-pA" d={INIT_PA} stroke="#7DD3FC" strokeWidth="1.8" strokeLinecap="round" />
-      <path id="dh-pB" d={INIT_PB} stroke="#7DD3FC" strokeWidth="1.8" strokeLinecap="round" />
+      {/* Strand lines */}
+      <path id="dh-pA" d={INIT_PA} stroke="#7DD3FC" strokeWidth="1.9" strokeLinecap="round" />
+      <path id="dh-pB" d={INIT_PB} stroke="#7DD3FC" strokeWidth="1.9" strokeLinecap="round" />
 
       {/* Nodes A */}
       {INIT_A.map((n, i) => (
         <circle key={i} id={`dh-nA${i}`}
           cx={n.x.toFixed(1)} cy={n.y.toFixed(1)} r={n.r.toFixed(1)}
-          fill={nodeColor(n.depth)} stroke="#38BDF8" strokeWidth="0.6"
+          fill={nodeColor(n.depth)} stroke="#38BDF8" strokeWidth="0.7"
           opacity={n.op.toFixed(2)} filter="url(#dh-gn)" />
       ))}
 
@@ -220,24 +262,24 @@ export default function DNAHero() {
       {INIT_B.map((n, i) => (
         <circle key={i} id={`dh-nB${i}`}
           cx={n.x.toFixed(1)} cy={n.y.toFixed(1)} r={n.r.toFixed(1)}
-          fill={nodeColor(n.depth)} stroke="#38BDF8" strokeWidth="0.6"
+          fill={nodeColor(n.depth)} stroke="#38BDF8" strokeWidth="0.7"
           opacity={n.op.toFixed(2)} filter="url(#dh-gn)" />
       ))}
 
       {/* ─── Data callouts ─── */}
       {CALLOUTS.map((c) => {
-        const cy       = c.anchorY;
-        const cardTop  = cy - CARD_H / 2;
-        const connLen  = String(CONN_LEN);
+        const cy      = c.anchorY;
+        const cardTop = cy - CARD_H / 2;
+        const connStr = String(CONN_LEN);
 
         return (
           <g key={c.id}>
-            {/* Floating wrapper — SMIL animateTransform */}
+            {/* Individual float wrapper */}
             <g>
               <animateTransform
                 attributeName="transform"
                 type="translate"
-                values={`0 0; 0 -5; 0 0`}
+                values="0 0; 0 -6; 0 0"
                 dur={c.floatDur}
                 begin={c.floatOff}
                 repeatCount="indefinite"
@@ -245,68 +287,101 @@ export default function DNAHero() {
                 keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"
               />
 
-              {/* Anchor dot on the helix */}
-              <circle cx={HELIX_RIGHT} cy={cy} r="2.8" fill="#38BDF8" opacity="0">
-                <animate attributeName="opacity" from="0" to="0.85" dur="0.4s" begin={`${c.drawDelay}s`} fill="freeze" />
+              {/* Outer glow ring at anchor — fades in */}
+              <circle cx={HELIX_RIGHT} cy={cy} r="9" fill="#38BDF8" opacity="0">
+                <animate attributeName="opacity" from="0" to="0.12"
+                  dur="0.5s" begin={`${c.drawDelay}s`} fill="freeze" />
               </circle>
 
-              {/* Connector line */}
+              {/* Inner anchor dot */}
+              <circle cx={HELIX_RIGHT} cy={cy} r="3.8" fill="#BAE6FD" opacity="0" filter="url(#dh-cg)">
+                <animate attributeName="opacity" from="0" to="1"
+                  dur="0.35s" begin={`${c.drawDelay}s`} fill="freeze" />
+              </circle>
+
+              {/* Connector — draws in left→right with gradient + glow */}
               <line
                 x1={HELIX_RIGHT} y1={cy}
                 x2={CONN_END}    y2={cy}
-                stroke="#93C5FD" strokeWidth="0.75" opacity="0.55"
-                strokeDasharray={connLen} strokeDashoffset={connLen}
+                stroke="url(#dh-connGrad)" strokeWidth="1.2"
+                strokeDasharray={connStr} strokeDashoffset={connStr}
+                filter="url(#dh-cg)"
               >
-                <animate attributeName="stroke-dashoffset" from={connLen} to="0"
-                  dur="0.45s" begin={`${c.drawDelay}s`} fill="freeze" />
+                <animate attributeName="stroke-dashoffset"
+                  from={connStr} to="0"
+                  dur="0.5s" begin={`${c.drawDelay + 0.05}s`} fill="freeze" />
               </line>
 
-              {/* Tiny vertical end-tick on connector */}
+              {/* Vertical end-tick */}
               <line
-                x1={CONN_END} y1={cy - 4}
-                x2={CONN_END} y2={cy + 4}
-                stroke="#93C5FD" strokeWidth="0.75" opacity="0"
+                x1={CONN_END} y1={cy - 5}
+                x2={CONN_END} y2={cy + 5}
+                stroke="#BAE6FD" strokeWidth="1.2" opacity="0"
               >
-                <animate attributeName="opacity" from="0" to="0.4"
-                  dur="0.3s" begin={`${c.drawDelay + 0.4}s`} fill="freeze" />
+                <animate attributeName="opacity" from="0" to="0.55"
+                  dur="0.3s" begin={`${c.drawDelay + 0.5}s`} fill="freeze" />
               </line>
 
-              {/* Card group — fades in */}
-              <g opacity="0">
+              {/* Card group — slides in from right + fades */}
+              <g opacity="0" transform={`translate(8, 0)`}>
                 <animate attributeName="opacity" from="0" to="1"
-                  dur="0.5s" begin={`${c.drawDelay + 0.3}s`} fill="freeze" />
+                  dur="0.45s" begin={`${c.drawDelay + 0.3}s`} fill="freeze" />
+                <animateTransform attributeName="transform"
+                  type="translate"
+                  from="12 0" to="0 0"
+                  dur="0.5s" begin={`${c.drawDelay + 0.3}s`} fill="freeze"
+                  additive="sum" />
 
-                {/* Card background */}
+                {/* Drop shadow layer */}
                 <rect
                   x={CARD_X} y={cardTop}
-                  width={CARD_W} height={CARD_H} rx="8"
-                  fill="rgba(10,28,68,0.62)"
-                  stroke="rgba(147,197,253,0.22)"
-                  strokeWidth="0.8"
+                  width={CARD_W} height={CARD_H} rx="10"
+                  fill="url(#dh-cardGrad)"
+                  filter="url(#dh-shadow)"
                 />
 
-                {/* Left accent line inside card */}
-                <rect x={CARD_X + 10} y={cardTop + 10} width="2" height={CARD_H - 20} rx="1"
-                  fill="#2563EB" opacity="0.85" />
+                {/* Card body with gradient fill */}
+                <rect
+                  x={CARD_X} y={cardTop}
+                  width={CARD_W} height={CARD_H} rx="10"
+                  fill="url(#dh-cardGrad)"
+                />
+
+                {/* Card border — subtle glow */}
+                <rect
+                  x={CARD_X} y={cardTop}
+                  width={CARD_W} height={CARD_H} rx="10"
+                  fill="none"
+                  stroke="rgba(147,197,253,0.32)" strokeWidth="0.9"
+                />
+
+                {/* Left accent bar */}
+                <rect
+                  x={CARD_X + 11} y={cardTop + 11}
+                  width="2.5" height={CARD_H - 22} rx="1.25"
+                  fill="#2563EB" opacity="0.9"
+                />
 
                 {/* Title */}
                 <text
-                  x={CARD_X + 18} y={cardTop + 18}
-                  fill="white" fontSize="10.5" fontWeight="700"
+                  x={CARD_X + 21} y={cardTop + 17}
+                  fill="white" fillOpacity="0.96"
+                  fontSize="11" fontWeight="700"
                   fontFamily="Inter, system-ui, sans-serif"
                   dominantBaseline="hanging"
-                  letterSpacing="0.01"
+                  letterSpacing="0.01em"
                 >
                   {c.title}
                 </text>
 
                 {/* Subtitle */}
                 <text
-                  x={CARD_X + 18} y={cardTop + 31}
-                  fill="#93C5FD" fillOpacity="0.6" fontSize="9"
+                  x={CARD_X + 21} y={cardTop + 32}
+                  fill="#93C5FD" fillOpacity="0.75"
+                  fontSize="9.5"
                   fontFamily="Inter, system-ui, sans-serif"
                   dominantBaseline="hanging"
-                  letterSpacing="0.02"
+                  letterSpacing="0.02em"
                 >
                   {c.sub}
                 </text>

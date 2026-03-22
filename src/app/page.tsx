@@ -75,10 +75,10 @@ export default function HomePage() {
             >
               <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 400, damping: 20 }}>
                 <Link href="/shop"
-                  className="inline-flex items-center gap-2.5 bg-white text-navy font-display font-semibold text-base px-7 py-3.5 rounded-xl transition-all duration-200"
-                  style={{ boxShadow: "0 0 0 0 rgba(37,99,235,0)" }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(10,31,68,0.25)"}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 0 rgba(37,99,235,0)"}
+                  className="inline-flex items-center gap-2.5 text-navy font-display font-semibold text-base px-7 py-3.5 rounded-xl transition-all duration-200"
+                  style={{ background: "linear-gradient(135deg, #ffffff 0%, #EFF6FF 100%)", boxShadow: "0 4px 16px rgba(37,99,235,0.18)" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(37,99,235,0.35)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(37,99,235,0.18)"; (e.currentTarget as HTMLElement).style.transform = ""; }}
                 >
                   Browse Peptides
                   <ArrowRight className="w-4 h-4" />
@@ -94,6 +94,18 @@ export default function HomePage() {
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </motion.div>
+
+            {/* Trust line */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.7 }}
+              className="flex items-center gap-1.5 text-[12px] font-medium -mt-10 mb-16"
+              style={{ color: "rgba(255,255,255,0.38)" }}
+            >
+              <Shield className="w-3 h-3 shrink-0" style={{ opacity: 0.6 }} />
+              Trusted by researchers nationwide
+            </motion.p>
 
             {/* Stats */}
             <motion.div
@@ -114,7 +126,7 @@ export default function HomePage() {
                       <>{stat.prefix}<NumberTicker value={stat.value} delay={2.1 + i * 0.15} className="text-white" />{stat.suffix}</>
                     )}
                   </div>
-                  <div className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.35)", letterSpacing: "0.04em" }}>{stat.label}</div>
+                  <div className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.55)", letterSpacing: "0.04em" }}>{stat.label}</div>
                 </div>
               ))}
             </motion.div>
