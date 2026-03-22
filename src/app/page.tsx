@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import MolecularOrbital from "@/components/MolecularOrbital";
+import DNAHelixBg from "@/components/DNAHelixBg";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Card, CardContent } from "@/components/ui/card";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
@@ -26,9 +27,8 @@ export default function HomePage() {
       <section className="relative min-h-[92vh] py-28 flex items-center overflow-hidden"
         style={{ background: "linear-gradient(145deg, #0A1F44 0%, #0D2B5A 50%, #0A1F44 100%)" }}>
 
-        {/* Very subtle dot grid */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.035]"
-          style={{ backgroundImage: "radial-gradient(circle, #93C5FD 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
+        {/* Animated DNA helix */}
+        <DNAHelixBg />
 
         {/* Soft radial glow */}
         <div className="absolute inset-0 pointer-events-none"
@@ -63,7 +63,7 @@ export default function HomePage() {
             {/* Headline */}
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-bold leading-[1.04] mb-7 text-white" style={{ letterSpacing: "-0.04em" }}>
               <TextGenerateEffect
-                words="Precision Peptides for Serious Research"
+                words="Precision-Grade Research Compounds"
                 className="text-white [&_span]:text-white"
                 duration={0.45}
               />

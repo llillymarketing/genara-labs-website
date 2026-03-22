@@ -7,20 +7,13 @@ import Preloader from "@/components/Preloader";
 import AgeGate from "@/components/AgeGate";
 import { CartProvider } from "@/components/CartDrawer";
 import { AuthProvider } from "@/lib/auth";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Source_Sans_3 } from "next/font/google";
 
-const inter = Inter({
+const sourceSans = Source_Sans_3({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-source-sans",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-  weight: ["500", "600", "700"],
+  weight: ["300", "400", "600", "700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -35,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={sourceSans.variable}>
       <body className="antialiased">
         <AuthProvider>
           <CartProvider>
