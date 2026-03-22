@@ -7,10 +7,21 @@ import Preloader from "@/components/Preloader";
 import AgeGate from "@/components/AgeGate";
 import { CartProvider } from "@/components/CartDrawer";
 import { AuthProvider } from "@/lib/auth";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { Inter, Space_Grotesk } from "next/font/google";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+  weight: ["500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Genara Labs — Research-Grade Peptides",
@@ -24,19 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased">
         <AuthProvider>
           <CartProvider>
@@ -44,7 +43,7 @@ export default function RootLayout({
             <ScrollProgress />
             <AgeGate />
             <Header />
-            <div className="h-[72px]" />
+            <div className="h-[88px]" />
             {children}
             <Footer />
           </CartProvider>
