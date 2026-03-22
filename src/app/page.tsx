@@ -160,9 +160,9 @@ export default function HomePage() {
               </FadeIn>
               <FadeIn delay={0.14}>
                 <Link href="/shop" className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors shrink-0"
-                  style={{ color: "rgba(147,197,253,0.7)" }}
+                  style={{ color: "rgba(147,197,253,0.88)" }}
                   onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "#93C5FD"}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(147,197,253,0.7)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(147,197,253,0.88)"}
                 >
                   View all compounds
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -211,14 +211,14 @@ export default function HomePage() {
                         {product.name}
                       </h3>
                     </Link>
-                    <p className="text-[12px] mb-5" style={{ color: "rgba(255,255,255,0.35)" }}>{product.variant} &middot; Research Grade</p>
+                    <p className="text-[12px] mb-5" style={{ color: "rgba(255,255,255,0.58)" }}>{product.variant} &middot; Research Grade</p>
                     <div className="flex items-center justify-between">
                       <span className="font-display text-lg font-bold text-white" style={{ letterSpacing: "-0.02em" }}>{product.price}</span>
                       <Link href={`/shop/${product.name.toLowerCase().replace(/\s+/g, "-")}`}
                         className="inline-flex items-center gap-1 text-[13px] font-medium transition-colors"
-                        style={{ color: "rgba(147,197,253,0.65)" }}
+                        style={{ color: "rgba(147,197,253,0.85)" }}
                         onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "#93C5FD"}
-                        onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(147,197,253,0.65)"}
+                        onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "rgba(147,197,253,0.85)"}
                       >
                         View Details
                         <ArrowRight className="w-3 h-3" />
@@ -416,7 +416,7 @@ export default function HomePage() {
                       <>{stat.prefix}<NumberTicker value={stat.value} delay={0.2 + i * 0.12} className="text-white" />{stat.suffix}</>
                     )}
                   </div>
-                  <div className="text-xs font-medium tracking-wider" style={{ color: "rgba(255,255,255,0.35)", letterSpacing: "0.06em" }}>{stat.label}</div>
+                  <div className="text-xs font-medium tracking-wider" style={{ color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em" }}>{stat.label}</div>
                 </div>
               ))}
             </div>

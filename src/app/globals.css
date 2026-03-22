@@ -185,27 +185,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ── Display / Headline System ── */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--color-navy);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-}
-
-h1 { letter-spacing: -0.04em; line-height: 1.04; }
-h2 { letter-spacing: -0.032em; line-height: 1.08; }
-h3 { letter-spacing: -0.022em; line-height: 1.15; }
-h4 { letter-spacing: -0.015em; line-height: 1.2; font-weight: 600; }
-
-/* ── Body Copy ── */
-p {
-  font-family: var(--font-body);
-  font-weight: 400;
-  line-height: 1.7;
-  color: var(--color-steel);
-}
 
 /* ── UI Labels (nav, buttons, tags) ── */
 .font-display {
@@ -307,5 +286,26 @@ p {
   }
   html {
     font-family: var(--font-body);
+  }
+
+  /* Heading defaults — inside @layer base so Tailwind utilities (text-white, text-navy, etc.) can override */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  h1 { letter-spacing: -0.04em; line-height: 1.04; }
+  h2 { letter-spacing: -0.032em; line-height: 1.08; }
+  h3 { letter-spacing: -0.022em; line-height: 1.15; }
+  h4 { letter-spacing: -0.015em; line-height: 1.2; font-weight: 600; }
+
+  /* Paragraph defaults */
+  p {
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--color-steel);
   }
 }
