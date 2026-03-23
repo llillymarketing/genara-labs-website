@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { Shield, Clock, MapPin, FlaskConical, ArrowRight, CheckCircle2 } from "lucide-react";
+import QualityVideo from "@/components/QualityVideo";
 
 const featuredProducts = [
   { name: "BPC-157", variant: "5mg", price: "$42.99" },
@@ -24,6 +25,9 @@ export default function HomePage() {
       {/* ───── HERO ───── */}
       <section className="relative min-h-[100svh] lg:min-h-[92vh] pt-20 pb-16 lg:py-28 flex items-center overflow-hidden"
         style={{ background: "linear-gradient(145deg, #0A1F44 0%, #0D2B5A 50%, #0A1F44 100%)" }}>
+
+        {/* DNA video background — all screen sizes */}
+        <QualityVideo />
 
         {/* Soft radial glow — desktop */}
         <div className="absolute inset-0 pointer-events-none hidden lg:block"

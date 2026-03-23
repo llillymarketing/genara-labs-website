@@ -1,36 +1,30 @@
 "use client";
 
-// The video has no audio track, so iOS Safari should allow unconditional
-// autoplay. The key is that the <video> element must be in the server-rendered
-// HTML (not created via JS after hydration). Next.js SSR outputs `muted` as
-// an HTML attribute when declared in JSX, which iOS reads at parse time.
-
 import { useEffect, useRef } from "react";
 
 export default function QualityVideo() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const v = videoRef.current;
+    const v = ref.current;
     if (!v) return;
-
-    // Safety-net: force play after hydration in case autoplay was delayed
+    // Imperatively set the muted attribute (not just the property) so iOS
+    // Safari honours it, then attempt to play immediately.
+    v.setAttribute("muted", "");
+    v.muted = true;
     const play = () => { v.muted = true; v.play().catch(() => {}); };
     play();
-
-    v.addEventListener("pause",      play);
-    v.addEventListener("ended",      play);
     v.addEventListener("canplay",    play);
     v.addEventListener("loadeddata", play);
-
+    v.addEventListener("pause",      play);
+    v.addEventListener("ended",      play);
     const onVis = () => { if (document.visibilityState === "visible") play(); };
     document.addEventListener("visibilitychange", onVis);
-
     return () => {
-      v.removeEventListener("pause",      play);
-      v.removeEventListener("ended",      play);
       v.removeEventListener("canplay",    play);
       v.removeEventListener("loadeddata", play);
+      v.removeEventListener("pause",      play);
+      v.removeEventListener("ended",      play);
       document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
@@ -38,7 +32,7 @@ export default function QualityVideo() {
   return (
     // eslint-disable-next-line jsx-a11y/media-has-caption
     <video
-      ref={videoRef}
+      ref={ref}
       autoPlay
       muted
       loop

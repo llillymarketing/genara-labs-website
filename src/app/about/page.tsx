@@ -6,6 +6,7 @@ import { NumberTicker } from "@/components/ui/number-ticker";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Microscope, TestTubes, ShieldCheck, Atom, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import QualityVideo from "@/components/QualityVideo";
 
 const qualitySteps = [
   {
@@ -138,7 +139,7 @@ export default function AboutPage() {
 
       {/* ── Quality Standard — navy with diagonal + DNA video ── */}
       <section className="relative bg-navy overflow-hidden">
-        {/* Video background handled by layout.tsx server component */}
+        <QualityVideo />
         {/* Diagonal top edge */}
         <div className="relative h-20">
           <svg className="absolute top-0 left-0 w-full" viewBox="0 0 1440 80" preserveAspectRatio="none" fill="none">
