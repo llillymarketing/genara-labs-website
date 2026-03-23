@@ -26,7 +26,7 @@ const CONN_LEN    = CONN_END - HELIX_RIGHT; // 44
 
 /* ─── Callouts — evenly distributed top-to-bottom ─── */
 const CALLOUTS = [
-  { id: "purity",   title: "99%+ Purity",        sub: "HPLC Verified",    anchorY: 115, drawDelay: 1.5, floatOff: "0s",   floatDur: "4.0s" },
+  { id: "purity",   title: "98%+ Purity",        sub: "HPLC Verified",    anchorY: 115, drawDelay: 1.5, floatOff: "0s",   floatDur: "4.0s" },
   { id: "tested",   title: "Third-Party Tested",  sub: "Independent Labs", anchorY: 268, drawDelay: 2.0, floatOff: "1.5s", floatDur: "4.4s" },
   { id: "coa",      title: "Full COA Included",   sub: "Every Batch",      anchorY: 421, drawDelay: 2.5, floatOff: "0.9s", floatDur: "3.8s" },
   { id: "shipping", title: "Same-Day Shipping",   sub: "Fast Fulfillment", anchorY: 562, drawDelay: 3.0, floatOff: "2.3s", floatDur: "4.7s" },

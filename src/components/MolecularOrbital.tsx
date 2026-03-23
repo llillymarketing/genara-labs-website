@@ -24,7 +24,7 @@ const connections = [
 
 /* ── Data cards ── */
 const dataCards = [
-  { icon: Shield,      label: "99.2% Pure",      sub: "HPLC Verified",        top: "8%",  right: "-4%",  delay: 0 },
+  { icon: Shield,      label: "98%+ Pure",      sub: "HPLC Verified",        top: "8%",  right: "-4%",  delay: 0 },
   { icon: FlaskConical,label: "Third-Party",      sub: "Independent Testing",  top: "55%", right: "-10%", delay: 2 },
   { icon: FileCheck,   label: "Full CoA",         sub: "Every Batch",          top: "82%", right: "10%",  delay: 4 },
 ];

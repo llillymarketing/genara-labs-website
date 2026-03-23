@@ -130,7 +130,7 @@ export default function HomePage() {
               className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-6"
             >
               {[
-                { value: 99, suffix: "%+", label: "Verified Purity" },
+                { value: 98, suffix: "%+", label: "Verified Purity" },
                 { value: 60, suffix: "+", label: "Compounds" },
                 { text: "Same-Day", label: "Fulfillment" },
                 { value: 100, suffix: "%", label: "COA Coverage" },
@@ -429,7 +429,7 @@ export default function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
               {[
                 { value: 60, suffix: "+", label: "Research Compounds" },
-                { value: 99, suffix: "%+", label: "Verified Purity" },
+                { value: 98, suffix: "%+", label: "Verified Purity" },
                 { text: "Same-Day", label: "Fulfillment" },
                 { value: 100, suffix: "%", label: "COA Transparency" },
               ].map((stat, i) => (
