@@ -1,13 +1,11 @@
 "use client";
 
-// iOS Safari autoplay requires the HTML `muted` *attribute* (not just the JS
-// property). React's JSX `muted={true}` only sets the property, so the browser
-// may not treat the video as muted for autoplay purposes.
-// Fix: create the element imperatively and use setAttribute("muted","").
+// iOS Safari requires the `muted` HTML attribute (not just the JS property)
+// for autoplay to work. This component sets it imperatively via setAttribute.
 
 import { useEffect, useRef } from "react";
 
-export default function MobileDNAVideo() {
+export default function QualityVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,7 +14,6 @@ export default function MobileDNAVideo() {
 
     const v = document.createElement("video");
 
-    // Set HTML attributes — these are what Safari checks for autoplay policy
     v.setAttribute("autoplay", "");
     v.setAttribute("muted", "");
     v.setAttribute("loop", "");
@@ -24,12 +21,10 @@ export default function MobileDNAVideo() {
     v.setAttribute("webkit-playsinline", "");
     v.setAttribute("disablepictureinpicture", "");
     v.setAttribute("preload", "auto");
-
-    // Also set the JS property for good measure
     v.muted = true;
 
     v.style.cssText =
-      "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.35;pointer-events:none;";
+      "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.12;pointer-events:none;";
 
     const src = document.createElement("source");
     src.src = "/dna-bg.mp4";
@@ -42,10 +37,10 @@ export default function MobileDNAVideo() {
     v.load();
     play();
 
-    v.addEventListener("canplay",     play);
-    v.addEventListener("loadeddata",  play);
-    v.addEventListener("pause",       play);
-    v.addEventListener("ended",       play);
+    v.addEventListener("canplay",   play);
+    v.addEventListener("loadeddata", play);
+    v.addEventListener("pause",     play);
+    v.addEventListener("ended",     play);
 
     const onVis = () => { if (document.visibilityState === "visible") play(); };
     document.addEventListener("visibilitychange", onVis);
@@ -63,7 +58,7 @@ export default function MobileDNAVideo() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 pointer-events-none lg:hidden"
+      className="absolute inset-0 pointer-events-none"
       aria-hidden="true"
     />
   );
