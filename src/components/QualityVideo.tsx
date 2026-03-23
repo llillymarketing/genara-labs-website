@@ -1,15 +1,17 @@
 "use client";
 
+// Mobile: animated WebP served as <img> — bypasses iOS autoplay policy entirely.
+// Animated images play immediately on every device without any user gesture.
+// Desktop: original mp4 video (no iOS restrictions on desktop).
+
 import { useEffect, useRef } from "react";
 
 export default function QualityVideo() {
-  const ref = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const v = ref.current;
+    const v = videoRef.current;
     if (!v) return;
-    // Imperatively set the muted attribute (not just the property) so iOS
-    // Safari honours it, then attempt to play immediately.
     v.setAttribute("muted", "");
     v.muted = true;
     const play = () => { v.muted = true; v.play().catch(() => {}); };
@@ -30,19 +32,32 @@ export default function QualityVideo() {
   }, []);
 
   return (
-    // eslint-disable-next-line jsx-a11y/media-has-caption
-    <video
-      ref={ref}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="auto"
-      aria-hidden="true"
-      className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-      style={{ opacity: 0.12 }}
-    >
-      <source src="/dna-bg.mp4" type="video/mp4" />
-    </video>
+    <>
+      {/* Mobile — animated WebP, plays instantly with no autoplay restrictions */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/dna-bg-mobile.webp"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none lg:hidden"
+        style={{ opacity: 0.12 }}
+      />
+
+      {/* Desktop — mp4 video */}
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none hidden lg:block"
+        style={{ opacity: 0.12 }}
+      >
+        <source src="/dna-bg.mp4" type="video/mp4" />
+      </video>
+    </>
   );
 }
