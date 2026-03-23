@@ -208,17 +208,12 @@ function DesktopVideo() {
 
   return (
     <div ref={containerRef}
-      className="absolute inset-0 pointer-events-none hidden lg:block"
+      className="absolute inset-0 pointer-events-none"
       aria-hidden="true"
     />
   );
 }
 
 export default function QualityVideo() {
-  return (
-    <>
-      <MobileDNA />
-      <DesktopVideo />
-    </>
-  );
+  return <DesktopVideo />;
 }
