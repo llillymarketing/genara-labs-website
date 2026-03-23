@@ -1,7 +1,8 @@
 "use client";
 
 // iOS Safari requires the `muted` HTML attribute (not just the JS property)
-// for autoplay to work. This component sets it imperatively via setAttribute.
+// for autoplay to work. On first page load iOS also blocks autoplay until a
+// user gesture — we unlock it on the first touchstart/scroll.
 
 import { useEffect, useRef } from "react";
 
@@ -37,10 +38,18 @@ export default function QualityVideo() {
     v.load();
     play();
 
-    v.addEventListener("canplay",   play);
+    // iOS blocks autoplay on first load until a user gesture fires.
+    // Unlock on the very first touch or scroll — imperceptible to the user.
+    const unlock = () => { play(); };
+    document.addEventListener("touchstart",  unlock, { once: true, passive: true });
+    document.addEventListener("touchmove",   unlock, { once: true, passive: true });
+    document.addEventListener("scroll",      unlock, { once: true, passive: true });
+    document.addEventListener("pointerdown", unlock, { once: true, passive: true });
+
+    v.addEventListener("canplay",    play);
     v.addEventListener("loadeddata", play);
-    v.addEventListener("pause",     play);
-    v.addEventListener("ended",     play);
+    v.addEventListener("pause",      play);
+    v.addEventListener("ended",      play);
 
     const onVis = () => { if (document.visibilityState === "visible") play(); };
     document.addEventListener("visibilitychange", onVis);
@@ -51,6 +60,10 @@ export default function QualityVideo() {
       v.removeEventListener("pause",      play);
       v.removeEventListener("ended",      play);
       document.removeEventListener("visibilitychange", onVis);
+      document.removeEventListener("touchstart",  unlock);
+      document.removeEventListener("touchmove",   unlock);
+      document.removeEventListener("scroll",       unlock);
+      document.removeEventListener("pointerdown",  unlock);
       if (container.contains(v)) container.removeChild(v);
     };
   }, []);

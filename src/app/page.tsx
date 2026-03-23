@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import QualityVideo from "@/components/QualityVideo";
-import DNAHero from "@/components/DNAHero";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Card, CardContent } from "@/components/ui/card";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
@@ -161,9 +160,33 @@ export default function HomePage() {
             </motion.p>
           </div>
 
-          {/* Right — DNA Helix (desktop only) */}
+          {/* Right — Floating fact cards (desktop only) */}
           <div className="hidden lg:flex items-center justify-center" style={{ height: "660px" }}>
-            <DNAHero />
+            <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
+              {[
+                { title: "99%+ Purity",        sub: "HPLC Verified"     },
+                { title: "Third-Party Tested",  sub: "Independent Labs"  },
+                { title: "Full COA Included",   sub: "Every Batch"       },
+                { title: "Same-Day Shipping",   sub: "Fast Fulfillment"  },
+              ].map((c, i) => (
+                <motion.div
+                  key={c.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 + i * 0.15, duration: 0.6, ease: "easeOut" }}
+                  className="rounded-2xl p-5 flex flex-col gap-1"
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(12px)",
+                  }}
+                >
+                  <div className="w-1.5 h-1.5 rounded-full mb-1" style={{ background: "#2563EB" }} />
+                  <span className="text-white font-display font-semibold text-[15px]" style={{ letterSpacing: "-0.01em" }}>{c.title}</span>
+                  <span className="text-[12px] font-medium" style={{ color: "rgba(147,197,253,0.65)" }}>{c.sub}</span>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
