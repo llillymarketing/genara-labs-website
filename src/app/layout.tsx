@@ -36,6 +36,35 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased">
+        {/*
+          DNA background video — rendered in the server component so `muted`
+          is a real HTML attribute in the initial bytes iOS Safari parses.
+          mix-blend-mode:screen makes it invisible on white pages and visible
+          only on dark navy sections. z-index:-1 sits behind all content.
+        */}
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: 0.55,
+            mixBlendMode: "screen",
+            zIndex: -1,
+            pointerEvents: "none",
+          }}
+        >
+          <source src="/dna-bg.mp4" type="video/mp4" />
+        </video>
+
         <AuthProvider>
           <CartProvider>
             <Preloader />

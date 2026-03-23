@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import QualityVideo from "@/components/QualityVideo";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Card, CardContent } from "@/components/ui/card";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
@@ -30,8 +29,6 @@ export default function HomePage() {
         <div className="absolute inset-0 pointer-events-none hidden lg:block"
           style={{ background: "radial-gradient(ellipse 70% 70% at 65% 45%, rgba(37,99,235,0.18) 0%, transparent 65%)" }} />
 
-        {/* DNA video background */}
-        <QualityVideo />
 
         {/* Thin accent line */}
         <motion.div
